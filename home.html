@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ranked Royale</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* CSS FIX: Reset body defaults while respecting your style.css padding */
+    body {
+      margin: 0;
+      /* padding: 40px 60px; is coming from style.css */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    
+
+    /* Admin Banner Styling - Now sits at the absolute top without pushing body padding */
+    #admin-banner {
+      background-color: #f6c73b; /* Vibrant Yellow */
+      color: #000000;
+      text-align: center;
+      padding: 12px 15px;
+      font-weight: 800;
+      font-size: 15px;
+      width: 100%;
+      box-sizing: border-box;
+      letter-spacing: 0.5px;
+      display: none; /* Controlled by JS */
+      border-bottom: 2px solid #e6c200;
+      position: absolute; /* Takes it out of flow so it doesn't push the header down from its 40px start */
+      top: 0;
+      left: 0;
+      z-index: 2000;
+    }
+
+    /* If banner is active, we push the body down to avoid overlap, 
+       otherwise it stays at the default 40px padding defined in style.css */
+    body.has-banner {
+      padding-top: 85px; /* Adjust this to banner height + your usual 40px gap */
+    }
+
+    header {
+      width: 100%;
+      max-width: 1200px;
+      box-sizing: border-box;
+      /* margin-bottom: 60px; is handled by style.css */
+    }
+
+    main {
+      width: 100%;
+      max-width: 1200px;
+      flex: 1;
+    }
+
+    /* Ensure dropdown stays functional */
+    .dropdown { position: relative; }
+    .dropdown-menu {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: #1a1a1d;
+      border: 1px solid #333;
+      padding: 10px;
+      border-radius: 8px;
+      z-index: 1001;
+      min-width: 160px;
+    }
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      color: #eaeaea;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .dropdown-menu a:hover { background: #2a2a2d; }
+    .dropdown-icon { width: 18px; height: 18px; }
+  </style>
+</head>
+<body>
+  <!-- THE ADMIN BANNER -->
+  <div id="admin-banner"></div>
+
+  <header>
+    <div class="left-section">
+      <a href="home.html" style="text-decoration:none;">
+        <div class="brand">Ranked <span>Royale</span>[<img src="https://codehs.com/uploads/ae233c960e1667eceff6207d7dacca3a" height="40px" width="40px" alt="Logo">]</div>
+      </a> 
+      <nav class="nav-links">
+        <a href="1v1.html"><strong>Ranked</strong></a>
+        <a href="2v2.html"><strong>Casual</strong></a>
+        <a href="tournaments.html"><strong>Tournaments</strong></a> 
+        <a href="leaderboards.html"><strong>Leaderboards</strong></a>
+      </nav>
+    </div>
+
+    <div class="icon-links">
+      <a href="rewards.html"><img src="https://codehs.com/uploads/1ebe0f2612be49581a63efca9b107bfb" height="30px" width="30px" alt="Rewards" class="header-icon"></a>
+      <a href="streaks.html"><img src="https://codehs.com/uploads/3a07e848825f4e34fb84af8c2eebba0d" height="30px" width="30px" alt="Streak" class="header-icon"></a>
+      <a href="announcements.html"><img src="https://codehs.com/uploads/0414a7538b1cd376998628b2b6a8bce2" height="30px" width="30px" alt="Announcements" class="header-icon"></a>
+      <a href="bulletin.html"><img src="https://codehs.com/uploads/70125e8db617ad9cb0f818217b8740dd" height="30px" width="30px" alt="Bulletin" class="header-icon"></a>
+      
+      <a href="friends.html" class="icon-wrapper">
+        <div id="friend-notification" class="notification-dot" style="display:none;"></div>
+        <img src="https://codehs.com/uploads/55d49340c9ff8926277fcf6aba722b98" height="30px" width="30px" alt="Friends" class="header-icon">
+      </a>
+    
+      <div class="dropdown">
+        <a href="#" class="dropdown-toggle">
+          <img src="https://codehs.com/uploads/2db38b8ea6560b1964fdd5346b95b07a" height="30px" width="30px" alt="Dropnav" class="header-icon">
+        </a>
+        <div class="dropdown-menu">
+          <a href="profile.html"><img src="https://codehs.com/uploads/e0bf720738fd3ed3e91fd9901c323097" class="dropdown-icon" alt="Profile Icon"> Profile</a>
+          <a href="settings.html"><img src="https://codehs.com/uploads/79d50f0b075ee99b7894000d07891895" class="dropdown-icon" alt="Settings Icon"> Settings</a>
+          <a href="support.html"><img src="https://codehs.com/uploads/40ab2aaa6fbe6f29fefd228fb6e6c9e4" class="dropdown-icon" alt="Profile Icon"> Support</a>
+          <a href="index.html"><img src="https://codehs.com/uploads/ec211f2b4a8657e17254843e645333e6" class="dropdown-icon" alt="Logout Icon"> Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="mode-section">
+      <div class="card">
+        <a href="1v1.html"><h2>Ranked <img src="https://codehs.com/uploads/a76e7da0a3d78a451ce2662a7beac786" width="20px" height="20px"></h2></a>
+        <p>Compete in head-to-head battles and climb the independent ELO leaderboard.</p>
+        <div class="elo">TESTING</div>
+        <a href="dashboard.html"><button class="btn-primary">Find Match</button></a>
+      </div>
+
+      <div class="card">
+        <a href="2v2.html"><h2>Casual <img src="https://codehs.com/uploads/91627a3a0d181261c4161f24855b5bc9" width="20px" height="20px"></h2></a>
+        <p>Team up with a partner and take on other duos in competitive ranked matchups.</p>
+        <div class="elo">Coming Soon!</div>
+        <button class="btn-primary">Coming Soon!</button>
+      </div>
+
+      <div class="card">
+        <a href="tournaments.html"><h2>Tournaments <img src="https://codehs.com/uploads/76007e9b2dfaa812cbfea1a59631c05d" width="20px" height="20px"></h2></a>
+        <p>Join scheduled events or host your own custom tournaments to earn ELO.</p>
+        <div class="elo">Open Tournaments: **** </div>
+        <a href="tournaments.html"><button class="btn-primary">View Tournaments</button></a>
+      </div>
+    </div>
+
+    <div class="history-section">
+      <div class="card">
+        <h3>Recent Tournament History <img src="https://codehs.com/uploads/2dac2a914e1e4dd7c86aec929e6de275" width="20px" height="20px"></h3>
+        <ul>
+          <li>{Tournament Name} - ${Winner}</li>
+          <li>{Tournament Name} - ${Winner}</li>
+          <li>{Tournament Name} - ${Winner}</li>
+        </ul>
+      </div>
+
+      <div class="card leaderboard">
+        <a href="leaderboards.html"><h3>Leaderboards <img src="https://codehs.com/uploads/8280612b8209c9ec57459e5b4395cb93" width="30px" height="25px"></h3></a>
+        <h4>Top Players <img src="https://codehs.com/uploads/6b9e7e650ab7ecd3843182da1d3a7077" width="20px" height="15px"></h4>
+        <table>
+          <thead><tr><th>Rank</th><th>Player</th><th>ELO</th></tr></thead>
+          <tbody id="top-players-body">
+            <tr><td colspan="3">Loading rankings...</td></tr>
+          </tbody>
+        </table>
+        <h4>Top Clans <img src="https://codehs.com/uploads/6b9e7e650ab7ecd3843182da1d3a7077" width="20px" height="15px"></h4>
+        <table>
+          <thead><tr><th>Rank</th><th>Team</th><th>ELO</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Clan Name</td><td>000000</td></tr>
+            <tr><td>2</td><td>Clan Name</td><td>000000</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="bulletin card">
+      <h3>Bulletin / Announcements</h3>
+      <ul>
+        <li>Server maintenance scheduled for Oct 31 at 3 PM UTC.</li>
+        <li>New tournament mode coming next week!</li>
+        <li>Bug fixes and improvements in matchmaking.</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+        <a href="privacyandabout.html"><h3>Privacy and About</h3></a>
+        <p>Our Privacy Policy, About Us, Staff, and Join Us</p>
+        <a href="privacyandabout.html"><button class="btn-primary">Visit</button></a>
+    </div>
+  </main>
+
+  <footer>
+    <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. Not affiliated with Supercell.</p>
+  </footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <script>
+    const SUPABASE_URL = 'https://bxhxfsfpzbluevvimvyy.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4aHhmc2ZwemJsdWV2dmltdnl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4MzExMDEsImV4cCI6MjA4ODQwNzEwMX0.MYfs79q91onlLOqZaGmcfG-z3NM0DDcxpOWNwdoD2ns';
+    
+    let supabaseClient;
+    try {
+      if (window.supabase) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+    } catch (err) {
+      console.error("Failed to initialize Supabase:", err);
+    }
+
+    async function loadBanner() {
+      if (!supabaseClient) return;
+      try {
+        const { data, error } = await supabaseClient
+          .from('site_settings')
+          .select('show_banner, banner_text')
+          .eq('id', 3)
+          .single();
+
+        if (error) throw error;
+
+        if (data && data.show_banner === true && data.banner_text) {
+          const bannerEl = document.getElementById('admin-banner');
+          bannerEl.textContent = data.banner_text;
+          bannerEl.style.display = 'block';
+          document.body.classList.add('has-banner');
+        } else {
+          document.body.classList.remove('has-banner');
+        }
+      } catch (err) {
+        console.warn("Banner could not be loaded.");
+      }
+    }
+    loadBanner();
+
+    async function loadLeaderboard() {
+      const tbody = document.getElementById('top-players-body');
+      if (!tbody || !supabaseClient) return;
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('profiles')
+          .select('username, elo_rating')
+          .order('elo_rating', { ascending: false })
+          .limit(3);
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          tbody.innerHTML = data.map((player, index) => `
+            <tr>
+              <td>${index + 1}</td>
+              <td>${player.username || 'Anonymous'}</td>
+              <td>${player.elo_rating || 0}</td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = '<tr><td colspan="3">No ranked players yet.</td></tr>';
+        }
+      } catch (err) {
+        console.error("Leaderboard Error:", err);
+        tbody.innerHTML = '<tr><td colspan="3">Unable to load rankings.</td></tr>';
+      }
+    }
+    loadLeaderboard();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.querySelector('.dropdown-toggle');
+      const menu = document.querySelector('.dropdown-menu');
+      if(toggle && menu) {
+        toggle.addEventListener('click', e => {
+          e.preventDefault();
+          menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+        });
+        window.addEventListener('click', e => {
+          if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+            menu.style.display = 'none';
+          }
+        });
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="theme.js"></script>
+  <script>
+    // 1. Notification Logic specifically for this page to ensure it works
+    async function checkNotifications() {
+      const supabaseUrl = 'https://bxhxfsfpzbluevvimvyy.supabase.co';
+      const supabaseKey = 'sb_publishable_POfMVVd3io00nMXGlRc2eQ_jndDE2oj';
+      
+      if (window.supabase) {
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (user) {
+          // Check friendships table for pending requests where you are the receiver
+          const { data, error } = await supabase
+            .from('friendships')
+            .select('id')
+            .eq('receiver_id', user.id)
+            .eq('status', 'pending');
+
+          const dot = document.getElementById('friend-notification');
+          if (dot) {
+            dot.style.display = (data && data.length > 0) ? 'block' : 'none';
+          }
+        }
+      }
+    }
+
+    // Run notification check on load
+    document.addEventListener('DOMContentLoaded', checkNotifications);
+  </script>
+</body>
+</html>

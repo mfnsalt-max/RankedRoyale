@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranked Royale | Sign Up</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header style="display: flex; justify-content: center; align-items: center; height: 80px;">
+    <div class="brand" style="display: flex; align-items: center; gap: 10px;">
+      Ranked <span>Royale</span>
+      [<img src="https://codehs.com/uploads/ae233c960e1667eceff6207d7dacca3a" height="40" width="40" alt="Logo">]
+    </div>
+  </header>
+
+  <main style="display:flex; justify-content:center; align-items:center; height:80vh;">
+    <form id="signup-form" class="auth-form" style="display:flex; flex-direction:column; gap:16px; width:300px;">
+      <h1 style="text-align:center;">Sign Up</h1>
+      
+      <input type="text" id="username" placeholder="Username" required style="padding:10px; font-size:1rem;">
+      <input type="password" id="password" placeholder="Password" required style="padding:10px; font-size:1rem;">
+      <input type="text" id="playerTag" placeholder="Player Tag (e.g. #9PN92U)" required style="padding:10px; font-size:1rem;">
+      <input type="text" id="token" placeholder="API Token" required style="padding:10px; font-size:1rem;">
+      
+      <button type="submit" class="btn-primary" style="padding:10px;">Sign Up</button>
+      <p style="text-align:center;">Already have an account? <a href="index.html">Login</a></p>
+    </form>
+  </main>
+
+  <footer style="text-align:center; color: gray; margin-top:60px;">
+    <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. ©Room310 Holdings — Parent company of RankedRoyale. Not affiliated with Supercell.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    {
+      const supabaseUrl = 'https://bxhxfsfpzbluevvimvyy.supabase.co';
+      const supabaseKey = 'sb_publishable_POfMVVd3io00nMXGlRc2eQ_jndDE2oj';
+      const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+      const signupForm = document.getElementById('signup-form');
+
+      signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        let playerTag = document.getElementById('playerTag').value.trim();
+        const token = document.getElementById('token').value.trim();
+
+        // Ensure the tag starts with a '#'
+        if (!playerTag.startsWith('#')) {
+          playerTag = '#' + playerTag;
+        }
+
+        try {
+          // 1. VERIFY WITH YOUR BACKEND FIRST
+          // This calls the Supabase Edge Function you just deployed
+          const { data: verifyData, error: verifyError } = await supabase.functions.invoke('verify-cr-token', {
+            body: { playerTag: playerTag, apiToken: token }
+          });
+
+          // If the edge function returns an error or success is false
+          if (verifyError || !verifyData?.success) {
+            alert("Verification Failed: Make sure your Player Tag and API Token are correct.");
+            return; // Stop the signup process right here so no account is made
+          }
+
+          // 2. IF VERIFIED, PROCEED WITH SIGNUP
+          const dummyEmail = username.toLowerCase() + '@rankedroyale.local';
+
+          const { data: authData, error: authError } = await supabase.auth.signUp({
+            email: dummyEmail,
+            password: password,
+          });
+
+          if (authError) {
+            alert("Signup Error: " + authError.message);
+            return;
+          } 
+
+          if (authData.user) {
+            // 3. Save the player info to your 'profiles' table
+            const { error: profileError } = await supabase
+              .from('profiles')
+              .insert([
+                { 
+                  id: authData.user.id, 
+                  player_tag: playerTag, 
+                  api_token: token,
+                  username: username 
+                }
+              ]);
+
+            if (profileError) {
+              alert("Account created, but database failed: " + profileError.message);
+            } else {
+              alert("Success! Account created and verified.");
+              
+              // Redirect the user to the index page!
+              try {
+                window.location.href = 'home.html';
+              } catch (navError) {
+                console.error("Navigation error blocked by sandbox:", navError);
+                document.body.innerHTML = `
+                  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #121212; color: white; font-family: sans-serif;">
+                    <h2>Signup Successful!</h2>
+                    <p style="color: #aaa;">Please open <b>home.html</b> to continue.</p>
+                  </div>`;
+              }
+            }
+          }
+        } catch (err) {
+          console.error(err);
+          alert("An unexpected error occurred during signup.");
+        }
+      });
+    }
+  </script>
+</body>
+</html>

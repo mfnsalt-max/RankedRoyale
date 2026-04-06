@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ranked Royale</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* CSS to make the red dot work with your existing HTML structure */
+    .icon-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+     .notification-dot {
+      display: none;
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 12px;
+      height: 12px;
+      background-color: #ff4757;
+      border: 2px solid #1a1a1a;
+      border-radius: 50%;
+      z-index: 10;
+      box-shadow: 0 0 5px rgba(255, 71, 87, 0.5);
+    }
+
+    /* Ensuring the header layout handles the wrapper correctly */
+    .icon-links {
+      display: flex;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="left-section">
+      <a href="home.html"><div class="brand">Ranked <span>Royale</span>[<img src="https://codehs.com/uploads/ae233c960e1667eceff6207d7dacca3a" height="40px" width="40px" alt="Logo">]</div></a> 
+      <nav class="nav-links">
+        <a href="1v1.html"><strong>Ranked</strong></a>
+        <a href="2v2.html"><strong>Casual</strong></a>
+        <a href="tournaments.html"><strong>Tournaments</strong></a> 
+        <a href="leaderboards.html"><strong>Leaderboards</strong></a>
+      </nav>
+    </div>
+
+    <div class="icon-links">
+      <a href="rewards.html"><img src="https://codehs.com/uploads/1ebe0f2612be49581a63efca9b107bfb" height="30px" width="30px" alt="Rewards" class="header-icon"></a>
+      <a href="streaks.html"><img src="https://codehs.com/uploads/3a07e848825f4e34fb84af8c2eebba0d" height="30px" width="30px" alt="Streak" class="header-icon"></a>
+      <a href="announcements.html"><img src="https://codehs.com/uploads/0414a7538b1cd376998628b2b6a8bce2" height="30px" width="30px" alt="Announcements" class="header-icon"></a>
+      <a href="bulletin.html"><img src="https://codehs.com/uploads/70125e8db617ad9cb0f818217b8740dd" height="30px" width="30px" alt="Bulletin" class="header-icon"></a>
+      
+      <a href="friends.html" class="icon-wrapper">
+        <div id="friend-notification" class="notification-dot"></div>
+        <img src="https://codehs.com/uploads/55d49340c9ff8926277fcf6aba722b98" height="30px" width="30px" alt="Friends" class="header-icon">
+      </a>
+    
+      <div class="dropdown">
+  <a href="#" class="dropdown-toggle">
+    <img src="https://codehs.com/uploads/2db38b8ea6560b1964fdd5346b95b07a" 
+         height="30px" width="30px" alt="Dropnav" class="header-icon">
+  </a>
+  <div class="dropdown-menu">
+    <a href="profile.html">
+      <img src="https://codehs.com/uploads/e0bf720738fd3ed3e91fd9901c323097" class="dropdown-icon" alt="Profile Icon">
+      Profile
+    </a>
+    <a href="settings.html">
+      <img src="https://codehs.com/uploads/79d50f0b075ee99b7894000d07891895" class="dropdown-icon" alt="Settings Icon">
+      Settings
+    </a>
+    <a href="support.html">
+      <img src="https://codehs.com/uploads/40ab2aaa6fbe6f29fefd228fb6e6c9e4" class="dropdown-icon" alt="Profile Icon">
+      Support
+    </a>
+    <a href="index.html">
+      <img src="https://codehs.com/uploads/ec211f2b4a8657e17254843e645333e6" class="dropdown-icon" alt="Logout Icon">
+      Logout
+    </a>
+  </div>
+</div>
+    </div>
+  </header>
+
+  <main>
+    <h1 style="text-align:center; color: var(--accent); margin-bottom: 20px;"> Rewards</h1>
+    <p style="text-align:center; color: var(--muted); margin-bottom: 40px;">Play matches and explore RankedRoyale to earn unique rewards!</p>
+
+    <div class="rewards-section">
+      <!-- Top 10% -->
+      
+      <div class="reward-card">
+        <h3>1v1 Rewards</h3><hr>
+        <p style="text-align:center; color: var(--muted); font-size: 0.8rem;">Rank higher in 1v1 to earn exclusive badges and gold rewards!</p>
+        
+          
+          <p style="text-align:center;"><strong>0 Unclaimed</strong></p>
+       
+        <a href="1v1rewards.html"><button class="btn-primary">See Rewards</button></a>
+      </div>
+      
+      <div class="reward-card">
+        <h3>2v2 Rewards</h3><hr>
+        <p style="text-align:center; color: var(--muted); font-size: 0.8rem;">Rank higher in 2v2 to earn exclusive badges and gold rewards!</p>
+        
+          
+          <p style="text-align:center;"><strong>0 Unclaimed</strong></p>
+       
+        <a href="2v2rewards.html"><button class="btn-primary">See Rewards</button></a>
+      </div>
+
+      <div class="reward-card">
+        <h3>Tournament Rewards</h3><hr>
+        <p style="text-align:center; color: var(--muted); font-size: 0.8rem;">Rank higher in Tournaments to earn exclusive badges and gold rewards!</p>
+        
+          
+          <p style="text-align:center;"><strong>0 Unclaimed</strong></p>
+       
+        <a href="tournamentrewards.html"><button class="btn-primary">See Rewards</button></a>
+      </div>
+
+      <!-- Top 50% -->
+      <div class="reward-card">
+        <h3>Community Rewards</h3><hr>
+        <p style="text-align:center; color: var(--muted); font-size: 0.8rem;">Participate in Community Events to earn exclusive badges and gold rewards!</p>
+        
+          
+          <p style="text-align:center;"><strong>0 Unclaimed</strong></p>
+       
+        <a href="Communityrewards.html"><button class="btn-primary">See Rewards</button></a>
+      </div>
+      
+      <div class="reward-card">
+        <h3>Miscellaneous Rewards</h3><hr>
+        <p style="text-align:center; color: var(--muted); font-size: 0.8rem;">Participate in Community Events to earn exclusive badges and gold rewards!</p>
+        
+          
+          <p style="text-align:center;"><strong>0 Unclaimed</strong></p>
+       
+        <a href="miscellaneousrewards.html"><button class="btn-primary">See Rewards</button></a>
+      </div>
+      
+      <div class="reward-card">
+        <h3>???</h3><hr>
+        <p style="text-align:center; color: var(--muted); font-size: 0.8rem;">??????????????????????????????????????????????  ?</p>
+        
+          
+          <p style="text-align:center;"><strong>0 Unclaimed</strong></p>
+       
+        <a href="hiddenrewards.html"><button class="btn-primary">See Rewards</button></a>
+      </div>
+      
+        
+      
+      
+      
+      
+    </div>
+  </main>
+
+  <footer style="text-align:center; color: var(--muted); margin-top:60px;">
+   <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. ©Room310 Holdings — Parent company of RankedRoyale. Not affiliated with Supercell.</p>
+  </footer>
+  
+  <script src="theme.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Dropdown toggle
+  const toggle = document.querySelector('.dropdown-toggle');
+  const menu = document.querySelector('.dropdown-menu');
+
+  toggle.addEventListener('click', e => {
+    e.preventDefault();
+    menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  window.addEventListener('click', e => {
+    if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+      menu.style.display = 'none';
+    }
+  });
+  
+  async function checkNotifications() {
+      const supabaseUrl = 'https://bxhxfsfpzbluevvimvyy.supabase.co';
+      const supabaseKey = 'sb_publishable_POfMVVd3io00nMXGlRc2eQ_jndDE2oj';
+      
+      if (window.supabase) {
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        // Use getSession for a reliable way to check auth status on page load
+        const { data: { session } } = await supabase.auth.getSession();
+        const user = session?.user;
+        
+        if (user) {
+          // Check friendships table for pending requests where you are the receiver
+          const { data, error } = await supabase
+            .from('friendships')
+            .select('id')
+            .eq('receiver_id', user.id)
+            .eq('status', 'pending');
+
+          const dot = document.getElementById('friend-notification');
+          if (dot) {
+            dot.style.display = (data && data.length > 0) ? 'block' : 'none';
+          }
+        }
+      }
+    }
+
+    // Initialize notification check on load
+    window.addEventListener('DOMContentLoaded', checkNotifications);
+</script>
+</body>
+</html>

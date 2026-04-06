@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ranked Royale</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+  <div class="left-section">
+    <a href="home.html"><div class="brand">Ranked <span>Royale</span>[<img src="https://codehs.com/uploads/ae233c960e1667eceff6207d7dacca3a" height="40px" width="40px"></img>]</div></a> 
+    <nav class="nav-links">
+      <a href="1v1.html"><strong>1v1</strong></a>
+      <a href="2v2.html"><strong>2v2</strong></a>
+      <a href="tournaments.html"><strong>Tournaments</strong></a> 
+      <a href="leaderboards.html"><strong>Leaderboards</strong></a>
+    </nav>
+  </div>
+
+  <div class="icon-links">
+    <a href="rewards.html"><img src="https://codehs.com/uploads/1ebe0f2612be49581a63efca9b107bfb" height="30px" width="30px" alt="Leaderboards" class="header-icon"></a>
+    <a href="streaks.html"><img src="https://codehs.com/uploads/3a07e848825f4e34fb84af8c2eebba0d" height="30px" width="30px" alt="Streak" class="header-icon"></a>
+    <a href="announcements.html"><img src="https://codehs.com/uploads/0414a7538b1cd376998628b2b6a8bce2" height="30px" width="30px" alt="Inbox" class="header-icon"></a>
+    <a href="bulletin.html"><img src="https://codehs.com/uploads/70125e8db617ad9cb0f818217b8740dd" height="30px" width="30px" alt="Bulletin" class="header-icon"></a>
+    <a href="friends.html"><img src="https://codehs.com/uploads/55d49340c9ff8926277fcf6aba722b98" height="30px" width="30px" alt="Account" class="header-icon"></a>
+  
+  <div class="dropdown">
+  <a href="#" class="dropdown-toggle">
+    <img src="https://codehs.com/uploads/2db38b8ea6560b1964fdd5346b95b07a" 
+         height="30px" width="30px" alt="Dropnav" class="header-icon">
+  </a>
+  <div class="dropdown-menu">
+    
+    
+    <a href="profile-example.html">
+      <img src="https://codehs.com/uploads/e0bf720738fd3ed3e91fd9901c323097" class="dropdown-icon" alt="Profile Icon">
+      Profile
+    </a>
+    <a href="settings.html">
+      <img src="https://codehs.com/uploads/79d50f0b075ee99b7894000d07891895" class="dropdown-icon" alt="Settings Icon">
+      Settings
+    </a>
+    <a href="tilt.html">
+      <img src="https://codehs.com/uploads/2e96ec90a760479b6d3e742fbf0b2299" class="dropdown-icon" alt="Logout Icon">
+      Tilt
+    </a>
+    <a href="support.html">
+      <img src="https://codehs.com/uploads/40ab2aaa6fbe6f29fefd228fb6e6c9e4" class="dropdown-icon" alt="Profile Icon">
+      Support
+    </a>
+    <a href="logout.html">
+      <img src="https://codehs.com/uploads/ec211f2b4a8657e17254843e645333e6" class="dropdown-icon" alt="Logout Icon">
+      Logout
+    </a>
+  </div>
+</div>
+
+
+    
+  </div>
+</header>
+
+<main>
+  <div class="history-section">
+    <!-- PROFILE HEADER -->
+    <div class="card" style="grid-column: span 2;">
+      <h2>Player | Tag</h2>
+      
+      <div style="display: flex; gap: 8px;">
+
+  
+</div>
+
+
+      <p>Joined: Date</p>
+      <div class="elo">Overall ELO: current elo</div>
+    </div>
+
+    <!-- TOP ROW: ELO BOXES -->
+    <div class="card player-stats-card">
+  <h3>1v1 Ranked</h3>
+  <hr>
+  <div class="stat-row">
+    <span class="stat-label">ELO:</span>
+    <span class="stat-value">current elo</span>
+  </div>
+  <div class="stat-row">
+    <span class="stat-label">Rank:</span>
+    <span class="stat-value">current rank</span>
+  </div>
+  <hr>
+  <div class="stat-row">
+    <span class="stat-label">Win Rate:</span>
+    <span class="stat-value">something%</span>
+  </div>
+</div>
+
+
+    <!-- OVERALL STATS -->
+    <div class="card" style="grid-column: span 2;">
+      <h3>Overall Stats</h3>
+      <ul>
+        <li>Total Wins: something</li>
+        <li>Total Losses: something</li>
+        <li>Win Rate: something%</li>
+        <li>current rank: something</li>
+        <li>Total Matches: something</li>
+      </ul>
+    </div>
+
+    <!-- BULLETIN -->
+    <div class="card">
+      <h3>Bulletin / Announcements</h3>
+      <ul>
+        <li>Server maintenance scheduled for Oct 31 at 3 PM UTC.</li>
+        <li>New tournament mode coming next week!</li>
+      </ul>
+    </div>
+    
+  
+
+  </div>
+</main>
+
+<footer>
+  <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. ©Room310 Holdings — Parent company of RankedRoyale. Not affiliated with Supercell.</p>
+</footer>
+
+<script src="theme.js"></script>
+<script>
+const dropdownToggle = document.querySelector('.dropdown-toggle');
+const dropdownMenu = document.querySelector('.dropdown-menu');
+dropdownToggle.addEventListener('click', function(e){
+  e.preventDefault();
+  dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+});
+window.addEventListener('click', function(e){
+  if(!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)){
+    dropdownMenu.style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>

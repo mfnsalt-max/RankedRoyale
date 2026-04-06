@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ranked Royale</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+  <div class="left-section">
+    <a href="home.html"><div class="brand">Ranked <span>Royale</span>[<img src="https://codehs.com/uploads/ae233c960e1667eceff6207d7dacca3a" height="40px" width="40px"></img>]</div></a> 
+    <nav class="nav-links">
+      <a href="1v1.html"><strong>1v1</strong></a>
+      <a href="2v2.html"><strong>2v2</strong></a>
+      <a href="tournaments.html"><strong>Tournaments</strong></a> 
+      <a href="leaderboards.html"><strong>Leaderboards</strong></a>
+    </nav>
+  </div>
+
+  <div class="icon-links">
+    <a href="rewards.html"><img src="https://codehs.com/uploads/1ebe0f2612be49581a63efca9b107bfb" height="30px" width="30px" alt="Leaderboards" class="header-icon"></a>
+    <a href="streaks.html"><img src="https://codehs.com/uploads/3a07e848825f4e34fb84af8c2eebba0d" height="30px" width="30px" alt="Streak" class="header-icon"></a>
+    <a href="announcements.html"><img src="https://codehs.com/uploads/0414a7538b1cd376998628b2b6a8bce2" height="30px" width="30px" alt="Inbox" class="header-icon"></a>
+    <a href="bulletin.html"><img src="https://codehs.com/uploads/70125e8db617ad9cb0f818217b8740dd" height="30px" width="30px" alt="Bulletin" class="header-icon"></a>
+    <a href="friends.html"><img src="https://codehs.com/uploads/55d49340c9ff8926277fcf6aba722b98" height="30px" width="30px" alt="Account" class="header-icon"></a>
+  
+  <div class="dropdown">
+  <a href="#" class="dropdown-toggle">
+    <img src="https://codehs.com/uploads/2db38b8ea6560b1964fdd5346b95b07a" 
+         height="30px" width="30px" alt="Dropnav" class="header-icon">
+  </a>
+  <div class="dropdown-menu">
+    
+    
+    <a href="profile-example.html">
+      <img src="https://codehs.com/uploads/e0bf720738fd3ed3e91fd9901c323097" class="dropdown-icon" alt="Profile Icon">
+      Profile
+    </a>
+    <a href="settings.html">
+      <img src="https://codehs.com/uploads/79d50f0b075ee99b7894000d07891895" class="dropdown-icon" alt="Settings Icon">
+      Settings
+    </a>
+    <a href="tilt.html">
+      <img src="https://codehs.com/uploads/2e96ec90a760479b6d3e742fbf0b2299" class="dropdown-icon" alt="Logout Icon">
+      Tilt
+    </a>
+    <a href="support.html">
+      <img src="https://codehs.com/uploads/40ab2aaa6fbe6f29fefd228fb6e6c9e4" class="dropdown-icon" alt="Profile Icon">
+      Support
+    </a>
+    <a href="index.html">
+      <img src="https://codehs.com/uploads/ec211f2b4a8657e17254843e645333e6" class="dropdown-icon" alt="Logout Icon">
+      Logout
+    </a>
+  </div>
+</div>
+
+
+    
+  </div>
+</header>
+
+  <main style="display: flex; justify-content: center; align-items: center; height: 80vh; position: relative;">
+    <button id="tiltButton" class="btn-primary" style="font-size: 3rem; padding: 60px 120px; border-radius: 20px; cursor: pointer;">
+      TILT
+    </button>
+
+    <div id="cooldownOverlay" style="
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      color: white;
+      font-size: 2rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    ">
+      <p>You are tilted.</p>
+      <p>Cooldown ends in <span id="timer">30:00</span></p>
+    </div>
+  </main>
+
+  <footer style="text-align:center; color: var(--muted); margin-top:60px;">
+    <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. ©Room310 Holdings — Parent company of RankedRoyale. Not affiliated with Supercell.</p>
+  </footer>
+  
+  <script src="theme.js"></script>
+  <script>
+    const tiltButton = document.getElementById('tiltButton');
+    const overlay = document.getElementById('cooldownOverlay');
+    const timerDisplay = document.getElementById('timer');
+    const STORAGE_KEY = 'tiltCooldownEnd';
+    let cooldownInterval = null;
+
+    function startCooldown(remainingSeconds) {
+      overlay.style.display = 'flex';
+      tiltButton.disabled = true;
+
+      clearInterval(cooldownInterval);
+      let timeLeft = remainingSeconds;
+
+      cooldownInterval = setInterval(() => {
+        if(timeLeft <= 0){
+          clearInterval(cooldownInterval);
+          overlay.style.display = 'none';
+          tiltButton.disabled = false;
+          localStorage.removeItem(STORAGE_KEY);
+          return;
+        }
+        const mins = Math.floor(timeLeft / 60);
+        const secs = timeLeft % 60;
+        timerDisplay.textContent = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+        timeLeft--;
+      }, 1000);
+    }
+
+    function enforceTiltLock() {
+      const savedEnd = localStorage.getItem(STORAGE_KEY);
+      const now = Math.floor(Date.now() / 1000);
+      if(savedEnd && savedEnd > now){
+        const remaining = savedEnd - now;
+        startCooldown(remaining);
+        // Keep redirecting to tilt page if user tries to leave
+        if(window.location.pathname !== '/tilt.html') {
+          window.location.href = 'tilt.html';
+        }
+      }
+    }
+
+    tiltButton.addEventListener('click', () => {
+      const duration = 30 * 60; // 30 minutes
+      const endTime = Math.floor(Date.now() / 1000) + duration;
+      localStorage.setItem(STORAGE_KEY, endTime);
+      startCooldown(duration);
+    });
+
+    // Enforce lock on page load
+    enforceTiltLock();
+
+    // Also periodically enforce lock in case user navigates away and comes back
+    setInterval(enforceTiltLock, 1000);
+
+    // Optional: prevent right-click or navigation shortcuts
+    window.addEventListener('beforeunload', function (e) {
+      const savedEnd = localStorage.getItem(STORAGE_KEY);
+      if(savedEnd && savedEnd > Math.floor(Date.now()/1000)){
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ranked Royale - Leaderboards</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .leaderboard-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      margin-bottom: 20px;
+    }
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    .leaderboard-table th, .leaderboard-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .leaderboard-table th {
+      color: #aaa;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .leaderboard-table tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .player-link {
+      color: #f6c73b;
+      text-decoration: none;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.1rem;
+    }
+    .player-link:hover {
+      text-decoration: underline;
+    }
+    .badge-container {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .rank-number {
+      font-weight: bold;
+      color: #fff;
+      font-size: 1.1rem;
+    }
+    .top-3 {
+      color: #f6c73b;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="left-section">
+      <a href="home.html"><div class="brand">Ranked <span>Royale</span>[<img src="https://codehs.com/uploads/ae233c960e1667eceff6207d7dacca3a" height="40px" width="40px" alt="Logo">]</div></a> 
+      <nav class="nav-links">
+        <a href="1v1.html"><strong>Ranked</strong></a>
+        <a href="2v2.html"><strong>Casual</strong></a>
+        <a href="tournaments.html"><strong>Tournaments</strong></a> 
+        <a href="leaderboards.html"><strong>Leaderboards</strong></a>
+      </nav>
+    </div>
+
+    <div class="icon-links">
+      <a href="rewards.html"><img src="https://codehs.com/uploads/1ebe0f2612be49581a63efca9b107bfb" height="30px" width="30px" alt="Rewards" class="header-icon"></a>
+      <a href="streaks.html"><img src="https://codehs.com/uploads/3a07e848825f4e34fb84af8c2eebba0d" height="30px" width="30px" alt="Streak" class="header-icon"></a>
+      <a href="announcements.html"><img src="https://codehs.com/uploads/0414a7538b1cd376998628b2b6a8bce2" height="30px" width="30px" alt="Announcements" class="header-icon"></a>
+      <a href="bulletin.html"><img src="https://codehs.com/uploads/70125e8db617ad9cb0f818217b8740dd" height="30px" width="30px" alt="Bulletin" class="header-icon"></a>
+      
+      <a href="friends.html" class="icon-wrapper">
+        <div id="friend-notification" class="notification-dot"></div>
+        <img src="https://codehs.com/uploads/55d49340c9ff8926277fcf6aba722b98" height="30px" width="30px" alt="Friends" class="header-icon">
+      </a>
+    
+      <div class="dropdown">
+  <a href="#" class="dropdown-toggle">
+    <img src="https://codehs.com/uploads/2db38b8ea6560b1964fdd5346b95b07a" 
+         height="30px" width="30px" alt="Dropnav" class="header-icon">
+  </a>
+  <div class="dropdown-menu">
+    <a href="profile.html">
+      <img src="https://codehs.com/uploads/e0bf720738fd3ed3e91fd9901c323097" class="dropdown-icon" alt="Profile Icon">
+      Profile
+    </a>
+    <a href="settings.html">
+      <img src="https://codehs.com/uploads/79d50f0b075ee99b7894000d07891895" class="dropdown-icon" alt="Settings Icon">
+      Settings
+    </a>
+    <a href="support.html">
+      <img src="https://codehs.com/uploads/40ab2aaa6fbe6f29fefd228fb6e6c9e4" class="dropdown-icon" alt="Profile Icon">
+      Support
+    </a>
+    <a href="index.html">
+      <img src="https://codehs.com/uploads/ec211f2b4a8657e17254843e645333e6" class="dropdown-icon" alt="Logout Icon">
+      Logout
+    </a>
+  </div>
+</div>
+    </div>
+  </header>
+
+<main>
+  <div class="leaderboard-card">
+    <h2>🏆 Global Top Players</h2>
+    <div id="loading-message" style="text-align: center; padding: 20px; color: #f6c73b;">
+      Fetching latest rankings...
+    </div>
+    <table class="leaderboard-table" id="leaderboard-table" style="display: none;">
+      <thead>
+        <tr>
+          <th style="width: 10%;">Rank</th>
+          <th>Player</th>
+          <th style="width: 20%;">ELO Rating</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard-body">
+        <!-- Rows injected here via JS -->
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<footer>
+  <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. ©Room310 Holdings — Parent company of RankedRoyale. Not affiliated with Supercell.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="theme.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const supabaseUrl = 'https://bxhxfsfpzbluevvimvyy.supabase.co';
+    const supabaseKey = 'sb_publishable_POfMVVd3io00nMXGlRc2eQ_jndDE2oj';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    const loadingMsg = document.getElementById("loading-message");
+    const table = document.getElementById("leaderboard-table");
+    const tbody = document.getElementById("leaderboard-body");
+
+    try {
+      // Fetch all players ordered by ELO
+      const { data: profiles, error } = await supabase
+        .from('profiles')
+        .select('id, username, elo_rating, badges')
+        .order('elo_rating', { ascending: false })
+        .limit(100); // Shows top 100 players
+
+      if (error) throw error;
+
+      if (!profiles || profiles.length === 0) {
+        loadingMsg.innerHTML = "No players found on the leaderboard yet!";
+        return;
+      }
+
+      // Hide loading message and show table
+      loadingMsg.style.display = "none";
+      table.style.display = "table";
+
+      // --- MINI BADGE DICTIONARY (Gradient + Icon ONLY) ---
+      // We use a 22x22px div with a border-radius instead of a full text button
+      const miniBadgeStyle = `border-radius: 6px; padding: 4px; display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0,0,0,0.5); cursor: help;`;
+      
+      const miniBadgeIcons = {
+        'youtube': `<div title="10K Youtube Subscribers" style="background: linear-gradient(135deg, #2b0000, #550000); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/80969e3b6ffc8341ddc52c2efb787980" style="max-width: 14px; max-height: 14px;" alt="Youtube"></div>`,
+        'creator': `<div title="Supercell Creator" style="background: linear-gradient(135deg, #004d00, #00b300); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/915597b5ef64f1e1c207177364bb63bd" style="max-width: 14px; max-height: 14px;" alt="Creator"></div>`,
+        'pro': `<div title="CRL Qualifier" style="background: linear-gradient(135deg, #0b0c10, #1a1a2e); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/e1b8bac36ac6b4e149f2466b83a3eb05" style="max-width: 14px; max-height: 14px;" alt="Pro"></div>`,
+        'twitch': `<div title="5,000 Twitch Followers" style="background: linear-gradient(135deg, #5b2bbf, #3e1e8c); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/abb539c2ee683f03b44a806415028fb3" style="max-width: 14px; max-height: 14px;" alt="Twitch"></div>`,
+        'tiktok': `<div title="50,000 TikTok Followers" style="background: linear-gradient(135deg, #00b3b3, #ff0050); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/5ce01f5d7f0da4f0b23ca69a8e2a56f6" style="max-width: 14px; max-height: 14px;" alt="TikTok"></div>`,
+        'white_hat': `<div title="Found a Site Breaking Bug" style="background: linear-gradient(135deg, #ffffff, #cfd8dc, #90a4ae); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/f0d1664bee275473ed109dfa3f96c37a" style="max-width: 18px; max-height: 18px;" alt="White Hat"></div>`,
+        'bug_hunter': `<div title="Helped Staff Find Bugs" style="background: linear-gradient(135deg, #ffffff, #90a4ae); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/288be4e34ee5e5d12b9f404c3782bac9" style="max-width: 16px; max-height: 16px;" alt="Bug Hunter"></div>`,
+        'alpha_tester': `<div title="Helped Test During Alpha" style="background: linear-gradient(135deg, #ffb347, #ff4d4d); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/09e527ef6c41758428f39f6d909e9908" style="max-width: 14px; max-height: 14px;" alt="Alpha"></div>`,
+        'beta_tester': `<div title="Helped Test During Beta" style="background: linear-gradient(135deg, #ffb347, #ff4d4d); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/09e527ef6c41758428f39f6d909e9908" style="max-width: 14px; max-height: 14px;" alt="Beta"></div>`,
+        'early_supporter': `<div title="First 1000 Users" style="background: linear-gradient(135deg, #ffb347, #ff4d4d); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/09e527ef6c41758428f39f6d909e9908" style="max-width: 14px; max-height: 14px;" alt="Early"></div>`,
+        'donator': `<div title="Donated to the Site" style="background: linear-gradient(135deg, #212121, #4caf50); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/d24257832dbf1e89e73e620cd17f9118" style="max-width: 14px; max-height: 14px;" alt="Donator"></div>`,
+        'beloved': `<div title="Reached 1000 Friends" style="background: linear-gradient(135deg, #4caf50, #8dd3b6); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/fd42849ca97f4709c66be581a3d46e45" style="max-width: 14px; max-height: 14px;" alt="Beloved"></div>`,
+        'top_player': `<div title="Top 100 Ranked Finish" style="background: linear-gradient(135deg, #0b0c10, #1a1a2e); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/6b9e7e650ab7ecd3843182da1d3a7077" style="max-width: 14px; max-height: 14px;" alt="Top Player"></div>`,
+        'staff': `<div title="Official RankedRoyale Staff Member" style="background: linear-gradient(135deg, #66ccff, #3399ff); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/a764f174aefc417e0a7b6a24e2d098af" style="max-width: 14px; max-height: 14px;" alt="Staff"></div>`,
+        'admin': `<div title="Official RankedRoyale Administrator" style="background: linear-gradient(135deg, #800000, #2b0000); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/a764f174aefc417e0a7b6a24e2d098af" style="max-width: 14px; max-height: 14px;" alt="Admin"></div>`,
+        'verified': `<div title="Verified" style="background: linear-gradient(135deg, #004d00, #00b300); ${miniBadgeStyle}"><img src="https://codehs.com/uploads/915597b5ef64f1e1c207177364bb63bd" style="max-width: 14px; max-height: 14px;" alt="verified"></div>`,
+      };
+
+      // Loop through players and build rows
+      profiles.forEach((p, index) => {
+        let rankClass = "rank-number";
+        let rankDisplay = `#${index + 1}`;
+        if (index === 0) { rankClass += " top-3"; rankDisplay = "1st"; }
+        else if (index === 1) { rankClass += " top-3"; rankDisplay = "2nd"; }
+        else if (index === 2) { rankClass += " top-3"; rankDisplay = "3rd"; }
+
+        // Process Mini-Badges
+        let badgeHtml = "";
+        if (p.badges) {
+          let badgeList = Array.isArray(p.badges) ? p.badges : p.badges.split(',');
+          badgeList.forEach(b => {
+            const key = b.trim().toLowerCase();
+            if (miniBadgeIcons[key]) {
+              badgeHtml += miniBadgeIcons[key];
+            }
+          });
+        }
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><span class="${rankClass}">${rankDisplay}</span></td>
+          <td>
+            <a href="profile.html?id=${p.id}" class="player-link">
+              ${p.username || 'Unknown'}
+              <div class="badge-container">${badgeHtml}</div>
+            </a>
+          </td>
+          <td style="font-weight: bold; font-size: 1.1rem;">${p.elo_rating || 1000}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+    } catch (err) {
+      console.error(err);
+      loadingMsg.innerHTML = "An error occurred while loading the leaderboard.";
+    }
+  });
+
+  // Dropdown Menu Logic
+  const dropdownToggle = document.querySelector('.dropdown-toggle');
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+  dropdownToggle.addEventListener('click', function(e){
+    e.preventDefault();
+    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+  });
+  window.addEventListener('click', function(e){
+    if(!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)){
+      dropdownMenu.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>

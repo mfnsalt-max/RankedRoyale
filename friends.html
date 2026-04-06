@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ranked Royale | Friends</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Header Icon Notification Styling */
+    .icon-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .notification-dot {
+      display: none;
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 12px;
+      height: 12px;
+      background-color: #ff4757;
+      border: 2px solid #1a1a1a;
+      border-radius: 50%;
+      z-index: 10;
+      box-shadow: 0 0 5px rgba(255, 71, 87, 0.5);
+    }
+
+    .friends-layout {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      width: 100%;
+    }
+    
+    .friends-panel {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .friend-row {
+      background: rgba(0,0,0,0.3);
+      padding: 15px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-info strong {
+      font-size: 1.1rem;
+      color: #fff;
+    }
+
+    .user-info span {
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-accept {
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-deny {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-remove {
+      background: rgba(231, 76, 60, 0.1);
+      color: #e74c3c;
+      border: 1px solid rgba(231, 76, 60, 0.3);
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+
+    .btn-remove:hover {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .empty-msg {
+      color: #777;
+      font-style: italic;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    h2 {
+      margin-bottom: 15px;
+      color: #f6c73b;
+      font-size: 1.4rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 8px;
+    }
+
+    /* Modal Styling for confirmations instead of alerts */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #2a2a2a;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 400px;
+      text-align: center;
+      border: 1px solid #f6c73b;
+    }
+    .modal-btns {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="left-section">
+      <a href="home.html"><div class="brand">Ranked <span>Royale</span>[<img src="https://codehs.com/uploads/ae233c960e1667eceff6207d7dacca3a" height="40px" width="40px" alt="Logo">]</div></a> 
+      <nav class="nav-links">
+        <a href="1v1.html"><strong>Ranked</strong></a>
+        <a href="2v2.html"><strong>Casual</strong></a>
+        <a href="tournaments.html"><strong>Tournaments</strong></a> 
+        <a href="leaderboards.html"><strong>Leaderboards</strong></a>
+      </nav>
+    </div>
+
+    <div class="icon-links">
+      <a href="rewards.html"><img src="https://codehs.com/uploads/1ebe0f2612be49581a63efca9b107bfb" height="30px" width="30px" alt="Rewards" class="header-icon"></a>
+      <a href="streaks.html"><img src="https://codehs.com/uploads/3a07e848825f4e34fb84af8c2eebba0d" height="30px" width="30px" alt="Streak" class="header-icon"></a>
+      <a href="announcements.html"><img src="https://codehs.com/uploads/0414a7538b1cd376998628b2b6a8bce2" height="30px" width="30px" alt="Announcements" class="header-icon"></a>
+      <a href="bulletin.html"><img src="https://codehs.com/uploads/70125e8db617ad9cb0f818217b8740dd" height="30px" width="30px" alt="Bulletin" class="header-icon"></a>
+      
+      <a href="friends.html" class="icon-wrapper">
+        <div id="friend-notification" class="notification-dot"></div>
+        <img src="https://codehs.com/uploads/55d49340c9ff8926277fcf6aba722b98" height="30px" width="30px" alt="Friends" class="header-icon">
+      </a>
+    
+      <div class="dropdown">
+  <a href="#" class="dropdown-toggle">
+    <img src="https://codehs.com/uploads/2db38b8ea6560b1964fdd5346b95b07a" 
+         height="30px" width="30px" alt="Dropnav" class="header-icon">
+  </a>
+  <div class="dropdown-menu">
+    <a href="profile.html">
+      <img src="https://codehs.com/uploads/e0bf720738fd3ed3e91fd9901c323097" class="dropdown-icon" alt="Profile Icon">
+      Profile
+    </a>
+    <a href="settings.html">
+      <img src="https://codehs.com/uploads/79d50f0b075ee99b7894000d07891895" class="dropdown-icon" alt="Settings Icon">
+      Settings
+    </a>
+    <a href="support.html">
+      <img src="https://codehs.com/uploads/40ab2aaa6fbe6f29fefd228fb6e6c9e4" class="dropdown-icon" alt="Profile Icon">
+      Support
+    </a>
+    <a href="index.html">
+      <img src="https://codehs.com/uploads/ec211f2b4a8657e17254843e645333e6" class="dropdown-icon" alt="Logout Icon">
+      Logout
+    </a>
+  </div>
+</div>
+    </div>
+  </header>
+
+  <main>
+    <h1>Community & Friends</h1>
+    
+    <div class="friends-layout">
+      <div class="friends-panel">
+        <div class="card reward-card">
+          <h2>📥 Pending Requests</h2>
+          <div id="requests-list">
+            <div class="empty-msg">Checking for requests...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="friends-panel">
+        <div class="card reward-card">
+          <h2>🤝 Your Friends</h2>
+          <div id="friends-list">
+            <div class="empty-msg">Loading friends list...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Custom Confirmation Modal -->
+  <div id="confirm-modal" class="modal-overlay">
+    <div class="modal-content">
+      <h3 style="color: #fff;">Remove Friend?</h3>
+      <p style="color: #aaa; margin: 10px 0;">Are you sure you want to remove this person from your friends list?</p>
+      <div class="modal-btns">
+        <button id="cancel-remove" class="btn-deny" style="background: #444;">Cancel</button>
+        <button id="confirm-remove" class="btn-remove" style="background: #e74c3c; color: white;">Remove</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. ©Room310 Holdings. Not affiliated with Supercell.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="theme.js"></script>
+  <script>
+    {
+      const supabaseUrl = 'https://bxhxfsfpzbluevvimvyy.supabase.co';
+      const supabaseKey = 'sb_publishable_POfMVVd3io00nMXGlRc2eQ_jndDE2oj';
+      const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+      let removalPendingId = null;
+
+      async function loadFriendsData() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          document.getElementById('requests-list').innerHTML = `<div class="empty-msg">Please log in to see requests.</div>`;
+          document.getElementById('friends-list').innerHTML = `<div class="empty-msg">Please log in to see your friends.</div>`;
+          return;
+        }
+
+        // Requests
+        const { data: requests } = await supabase
+          .from('friendships')
+          .select('*')
+          .eq('receiver_id', user.id)
+          .eq('status', 'pending');
+
+        const reqDiv = document.getElementById('requests-list');
+        const notificationDot = document.getElementById('friend-notification');
+        reqDiv.innerHTML = '';
+
+        if (requests && requests.length > 0) {
+          if(notificationDot) notificationDot.style.display = 'block';
+          const uids = requests.map(r => r.requester_id);
+          const { data: profiles } = await supabase.from('profiles').select('id, username, elo_rating').in('id', uids);
+          
+          requests.forEach(r => {
+            const p = profiles?.find(prof => prof.id === r.requester_id);
+            if(p) {
+              reqDiv.innerHTML += `
+                <div class="friend-row">
+                  <div class="user-info">
+                    <strong>${p.username}</strong>
+                    <span>${p.elo_rating || 1000} ELO</span>
+                  </div>
+                  <div class="btn-group">
+                    <button class="btn-accept" onclick="updateStatus('${r.id}', 'accepted')">Accept</button>
+                    <button class="btn-deny" onclick="deleteFriendship('${r.id}')">Ignore</button>
+                  </div>
+                </div>`;
+            }
+          });
+        } else {
+          if(notificationDot) notificationDot.style.display = 'none';
+          reqDiv.innerHTML = `<div class="empty-msg">No new requests.</div>`;
+        }
+
+        // Friends - Simplified retrieval logic
+        const { data: friends } = await supabase
+          .from('friendships')
+          .select('id, requester_id, receiver_id')
+          .eq('status', 'accepted')
+          .or(`requester_id.eq.${user.id},receiver_id.eq.${user.id}`);
+
+        const listDiv = document.getElementById('friends-list');
+        listDiv.innerHTML = '';
+
+        if (friends && friends.length > 0) {
+          // Track friendship record IDs keyed by friend UID
+          const friendshipMap = {};
+          const fids = friends.map(f => {
+            const friendUid = f.requester_id === user.id ? f.receiver_id : f.requester_id;
+            friendshipMap[friendUid] = f.id;
+            return friendUid;
+          });
+
+          const { data: fProfiles } = await supabase.from('profiles').select('id, username, elo_rating').in('id', fids);
+          
+          fProfiles?.forEach(fp => {
+            listDiv.innerHTML += `
+              <div class="friend-row">
+                <div class="user-info">
+                  <strong><a href="profile.html?id=${fp.id}" style="color:#f6c73b; text-decoration:none;">${fp.username}</a></strong>
+                  <span>${fp.elo_rating || 1000} ELO</span>
+                </div>
+                <div class="btn-group">
+                  <button class="btn-remove" onclick="showRemoveModal('${friendshipMap[fp.id]}')">Remove</button>
+                </div>
+              </div>`;
+          });
+        } else {
+          listDiv.innerHTML = `<div class="empty-msg">Your friends list is empty.</div>`;
+        }
+      }
+
+      window.updateStatus = async (id, status) => {
+        await supabase.from('friendships').update({ status }).eq('id', id);
+        loadFriendsData();
+      };
+
+      window.deleteFriendship = async (id) => {
+        await supabase.from('friendships').delete().eq('id', id);
+        loadFriendsData();
+      };
+
+      // Modal handling
+      const modal = document.getElementById('confirm-modal');
+      window.showRemoveModal = (friendshipId) => {
+        removalPendingId = friendshipId;
+        modal.style.display = 'flex';
+      };
+
+      document.getElementById('cancel-remove').onclick = () => {
+        modal.style.display = 'none';
+        removalPendingId = null;
+      };
+
+      document.getElementById('confirm-remove').onclick = async () => {
+        if(removalPendingId) {
+          const { error } = await supabase.from('friendships').delete().eq('id', removalPendingId);
+          if (error) console.error("Error removing friend:", error);
+          modal.style.display = 'none';
+          removalPendingId = null;
+          loadFriendsData();
+        }
+      };
+
+      loadFriendsData();
+
+      document.querySelector('.dropdown-toggle')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const m = document.querySelector('.dropdown-menu');
+        if(m) m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+      });
+    }
+  </script>
+</body>
+</html>

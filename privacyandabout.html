@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranked Royale | About & Privacy</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: sans-serif;
+      line-height: 1.6;
+    }
+
+    .content-container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 25px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      margin-top: 0px !important;
+      margin-bottom: 15px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 25px;
+      border-bottom: 2px solid rgba(255,255,255,0.1);
+      padding-bottom: 5px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 10px 20px;
+      border-radius: var(--radius);
+      transition: var(--transition);
+      opacity: 0.6;
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #000;
+      opacity: 1;
+    }
+
+    .section-content {
+      display: none;
+      padding-top: 10px;
+    }
+
+    .section-content.active {
+      display: block;
+    }
+
+    h1, h2, h3 {
+      color: var(--accent);
+      margin-top: 1.2em;
+    }
+
+    p {
+      margin-bottom: 1em;
+    }
+
+    /* Improved List Alignment */
+    .section-content ul {
+      margin-bottom: 1em;
+      padding-left: 25px; /* Moves bullets inward from the edge */
+    }
+
+    .section-content li {
+      margin-bottom: 0.5em;
+    }
+
+    .legal-box {
+      background: rgba(0,0,0,0.2);
+      padding: 20px;
+      border-left: 4px solid var(--accent);
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+
+    .staff-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .staff-card {
+      background: rgba(255,255,255,0.05);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .staff-role {
+      font-size: 0.8rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .join-cta {
+      text-align: center;
+      padding: 30px;
+      background: linear-gradient(rgba(var(--accent-rgb), 0.1), transparent);
+      border-radius: 12px;
+      border: 1px dashed var(--accent);
+    }
+
+    .icon-wrapper {
+      position: relative;
+      display: inline-flex;
+    }
+
+    .notification-dot {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 10px;
+      height: 10px;
+      background-color: #ff0000;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="left-section">
+      <a href="home.html"><div class="brand">Ranked <span>Royale</span>[<img src="https://codehs.com/uploads/ae233c960e1667eceff6207d7dacca3a" height="40px" width="40px" alt="Logo">]</div></a> 
+      <nav class="nav-links">
+        <a href="1v1.html"><strong>Ranked</strong></a>
+        <a href="2v2.html"><strong>Casual</strong></a>
+        <a href="tournaments.html"><strong>Tournaments</strong></a> 
+        <a href="leaderboards.html"><strong>Leaderboards</strong></a>
+      </nav>
+    </div>
+
+    <div class="icon-links">
+      <a href="rewards.html"><img src="https://codehs.com/uploads/1ebe0f2612be49581a63efca9b107bfb" height="30px" width="30px" alt="Rewards" class="header-icon"></a>
+      <a href="streaks.html"><img src="https://codehs.com/uploads/3a07e848825f4e34fb84af8c2eebba0d" height="30px" width="30px" alt="Streak" class="header-icon"></a>
+      <a href="announcements.html"><img src="https://codehs.com/uploads/0414a7538b1cd376998628b2b6a8bce2" height="30px" width="30px" alt="Announcements" class="header-icon"></a>
+      <a href="bulletin.html"><img src="https://codehs.com/uploads/70125e8db617ad9cb0f818217b8740dd" height="30px" width="30px" alt="Bulletin" class="header-icon"></a>
+      
+      <a href="friends.html" class="icon-wrapper">
+        <div id="friend-notification" class="notification-dot"></div>
+        <img src="https://codehs.com/uploads/55d49340c9ff8926277fcf6aba722b98" height="30px" width="30px" alt="Friends" class="header-icon">
+      </a>
+    
+      <div class="dropdown">
+        <a href="#" class="dropdown-toggle">
+          <img src="https://codehs.com/uploads/2db38b8ea6560b1964fdd5346b95b07a" height="30px" width="30px" alt="Menu" class="header-icon">
+        </a>
+        <div class="dropdown-menu">
+          <a href="profile.html"><img src="https://codehs.com/uploads/e0bf720738fd3ed3e91fd9901c323097" class="dropdown-icon" alt="Profile"> Profile</a>
+          <a href="settings.html"><img src="https://codehs.com/uploads/79d50f0b075ee99b7894000d07891895" class="dropdown-icon" alt="Settings"> Settings</a>
+          <a href="support.html"><img src="https://codehs.com/uploads/40ab2aaa6fbe6f29fefd228fb6e6c9e4" class="dropdown-icon" alt="Support"> Support</a>
+          <a href="index.html"><img src="https://codehs.com/uploads/ec211f2b4a8657e17254843e645333e6" class="dropdown-icon" alt="Logout"> Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="content-container">
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="showTab('about')">About Us</button>
+      <button class="tab-btn" onclick="showTab('privacy')">Privacy Policy</button>
+      <button class="tab-btn" onclick="showTab('staff')">Our Staff</button>
+      <button class="tab-btn" onclick="showTab('join')">Join Us</button>
+    </div>
+
+    <!-- About Section -->
+    <div id="about" class="section-content active">
+      <h1>About Ranked Royale</h1>
+      <p>Ranked Royale is an independent community platform designed to bring a high-stakes, competitive edge to the Clash Royale experience. We provide a custom ELO ranking system that allows players to track their progress, compete in organized tournaments, and find teammates in a dedicated environment.</p>
+      
+      <h3>Our Mission</h3>
+      <p>Our mission is to foster a fair and competitive environment for players of all skill levels. Whether you are a casual player looking to improve or a professional looking for a challenge, Ranked Royale provides the tools you need to succeed.</p>
+
+      <h3>Who We Are</h3>
+      <p>We are a small team of passionate developers and gamers who felt that the existing ladder systems could be enhanced with better matchmaking and social features. Ranked Royale is a project under Room310 Holdings.</p>
+
+      <div class="legal-box">
+        <strong>Disclaimer:</strong> Ranked Royale is an unofficial community site. We are not affiliated with, endorsed, sponsored, or specifically approved by Supercell. For more information, please refer to Supercell's Fan Content Policy.
+      </div>
+    </div>
+
+    <!-- Privacy Section -->
+    <div id="privacy" class="section-content">
+      <h1>Privacy Policy</h1>
+      <p>Last Updated: October 2023</p>
+      
+      <h2>1. Information We Collect</h2>
+      <p>We collect minimal information required to provide our services, including:</p>
+      <ul>
+        <li>Email address for account creation and security.</li>
+        <li>In-game player tags to sync match history and rankings.</li>
+        <li>Profile information you choose to provide (avatar, bio).</li>
+      </ul>
+
+      <h2>2. How We Use Data</h2>
+      <p>Your data is used to calculate ELO rankings, manage tournament brackets, and allow other users to find you via the friend system. <strong>We do not sell your personal data to third parties.</strong></p>
+
+      <h2>3. Security</h2>
+      <p>We use industry-standard encryption (via Supabase) to protect your account data. However, no method of transmission over the internet is 100% secure.</p>
+
+      <h2>4. Third-Party Services</h2>
+      <p>We utilize Supercell's public API to retrieve match data. By using our site, you acknowledge that your public game statistics are being accessed through these official channels.</p>
+
+      <h2>5. Safety Warning</h2>
+      <p>We will <strong>NEVER</strong> ask you for your Email Password, Supercell Login, Banking Information, or highly personal details (Address, Age, etc). If you are asked for these by someone claiming to be Ranked Royale staff, <strong>THEY ARE AN IMPOSTER. PLEASE ALERT US IMMEDIATELY.</strong></p>
+      
+      <h2>6. Contact Us</h2>
+      <p>If you have questions about your data, have found a bug, or wish to delete your account, please contact us via the Support page.</p>
+    </div>
+
+    <!-- Staff Section -->
+    <div id="staff" class="section-content">
+      <h1>Our Staff</h1>
+      <p>The dedicated team working behind the scenes to keep the Royale running smoothly.</p>
+      
+      <div class="staff-grid">
+        <div class="staff-card">
+          <div class="staff-role">Founder / Lead Dev</div>
+          <strong>Muffin</strong>
+        </div>
+        <div class="staff-card">
+          <div class="staff-role">Lead Admin / Merge</div>
+          <strong>Turkey</strong>
+        </div>
+        <div class="staff-card">
+          <div class="staff-role">Jr Dev</div>
+          <strong>Gemini Pro</strong>
+        </div>
+        <div class="staff-card">
+          <div class="staff-role">Number 1 Opp</div>
+          <strong>Gemini Fast</strong> <hr>
+          OML THIS THING IS TRYING TO RUIN RANKEDROYALE 💔💔💔
+        </div>
+        <div class="staff-card">
+          <div class="staff-role">Shitty Computer</div>
+          <strong>HP Chromebook 11 G8 EE (Education Edition)</strong> <hr>
+          School Chromebook ❤️‍🩹
+        </div>
+      </div>
+    </div>
+
+    <!-- Join Us Section -->
+    <div id="join" class="section-content">
+      <h1>Join the Team</h1>
+      <p>If you want to join the Ranked Royale team then uh this is the page for you I guess.</p>
+      
+      <div class="join-cta">
+        <h3>Currently Seeking:</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li>Database Admin</li>
+          <li>Community Moderators</li>
+          <li>Tournament Organizers</li>
+          <li>Anything else useful</li>
+        </ul>
+        <p style="margin-top: 20px;">Want to apply? Reach out to us via <strong>Support</strong> with the position you're interested in and a brief summary of why you're a good fit for the role. (Response within 48 hours)</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. ©Room310 Holdings. Not affiliated with Supercell.</p>
+  </footer>
+
+  <script src="theme.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
+    }
+
+    const toggle = document.querySelector('.dropdown-toggle');
+    const menu = document.querySelector('.dropdown-menu');
+    if(toggle) {
+      toggle.addEventListener('click', e => {
+        e.preventDefault();
+        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+      });
+    }
+
+    async function checkNotifications() {
+      const supabaseUrl = 'https://bxhxfsfpzbluevvimvyy.supabase.co';
+      const supabaseKey = 'sb_publishable_POfMVVd3io00nMXGlRc2eQ_jndDE2oj';
+      if (window.supabase) {
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          const { data } = await supabase.from('friendships').select('id').eq('receiver_id', session.user.id).eq('status', 'pending');
+          const dot = document.getElementById('friend-notification');
+          if (dot) dot.style.display = (data && data.length > 0) ? 'block' : 'none';
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', checkNotifications);
+  </script>
+</body>
+</html>

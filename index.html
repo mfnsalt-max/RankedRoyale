@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranked Royale | Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header style="display: flex; justify-content: center; align-items: center; height: 80px;">
+    <div class="brand" style="display: flex; align-items: center; gap: 10px;">
+      Ranked <span>Royale</span>
+      [<img src="https://codehs.com/uploads/ae233c960e1667eceff6207d7dacca3a" height="40" width="40" alt="Logo">]
+    </div>
+  </header>
+
+  <main style="display:flex; justify-content:center; align-items:center; height:80vh;">
+    <form id="login-form" class="auth-form" style="display:flex; flex-direction:column; gap:16px; width:300px;">
+      <h1 style="text-align:center;">Login</h1>
+      
+      <input type="text" id="username" placeholder="Username" required style="padding:10px; font-size:1rem;">
+      
+      <input type="password" id="password" placeholder="Password" required style="padding:10px; font-size:1rem;">
+      <button type="submit" class="btn-primary" style="padding:10px;">Login</button>
+      <p style="text-align:center;">Don't have an account? <a href="signup.html">Sign Up</a></p>
+    </form>
+  </main>
+
+  <footer style="text-align:center; color: gray; margin-top:60px;">
+    <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. ©Room310 Holdings — Parent company of RankedRoyale. Not affiliated with Supercell.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    {
+      const supabaseUrl = 'https://bxhxfsfpzbluevvimvyy.supabase.co';
+      const supabaseKey = 'sb_publishable_POfMVVd3io00nMXGlRc2eQ_jndDE2oj';
+      const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+      const loginForm = document.getElementById('login-form');
+
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // 1. Get the username and password
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+
+        // 2. CONVERSION: Turn the username into the dummy email used during signup
+        const dummyEmail = username.toLowerCase() + '@rankedroyale.local';
+
+        // 3. Sign in with Supabase using the dummy email
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: dummyEmail,
+          password: password,
+        });
+
+        if (error) {
+          alert("Login Error: " + error.message);
+        } else {
+          alert("Login Successful! Welcome back.");
+          window.location.href = 'home.html'; 
+        }
+      });
+    }
+  </script>
+</body>
+</html>

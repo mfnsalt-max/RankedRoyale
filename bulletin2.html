@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RankedRoyale | Inbox</title>
+<link rel="stylesheet" href="style.css">
+<h1> Inbox </h1>
+
+<h2> Coming Soon </h2>
+
+<footer>
+  <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. ©Room310 Holdings — Parent company of RankedRoyale. Not affiliated with Supercell.</p>
+</footer>
+
+<script>
+  // Mark as read & delete functionality
+  document.querySelectorAll('.btn.read').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const card = e.target.closest('.message-card');
+      card.classList.remove('unread');
+      btn.textContent = 'Read';
+      btn.disabled = true;
+    });
+  });
+
+  document.querySelectorAll('.btn.delete').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const card = e.target.closest('.message-card');
+      card.style.opacity = '0';
+      setTimeout(() => card.remove(), 300);
+    });
+  });
+</script>
+
+</body>
+</html>

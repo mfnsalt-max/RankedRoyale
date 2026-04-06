@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ranked Royale - Profile</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+  @keyframes rgbGlow {
+  0% { background-position: 0% 50%; box-shadow: 0 0 10px #ff0000; }
+  20% { background-position: 20% 50%; box-shadow: 0 0 10px #ff7f00; }
+  40% { background-position: 40% 50%; box-shadow: 0 0 10px #ffff00; }
+  60% { background-position: 60% 50%; box-shadow: 0 0 10px #00ff00; }
+  80% { background-position: 80% 50%; box-shadow: 0 0 10px #0000ff; }
+  100% { background-position: 100% 50%; box-shadow: 0 0 10px #ff0000; }
+}
+
+.founder-badge-btn {
+  background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
+  background-size: 200% auto;
+  animation: rgbGlow 2.5s linear infinite;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.8);
+  font-weight: bold;
+}
+
+    /* Add a little bit of styling for the badges! */
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    .badge-bronze { background: #cd7f32; color: #fff; }
+    .badge-silver { background: #c0c0c0; color: #000; }
+    .badge-gold { background: #ffd700; color: #000; }
+    .badge-champion { background: linear-gradient(45deg, #ff00ff, #00ffff); color: #fff; }
+
+    /* Friend Button Styles */
+    .friend-btn {
+      background: #f6c73b;
+      color: #111;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      font-size: 0.9em;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .friend-btn:hover:not(:disabled) {
+      background: #e5b62a;
+      transform: scale(1.05);
+    }
+    .friend-btn:disabled {
+      background: #444;
+      color: #aaa;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .friend-btn.friends {
+      background: #4caf50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+  <div class="left-section">
+    <a href="home.html"><div class="brand">Ranked <span>Royale</span>[<img src="https://codehs.com/uploads/ae233c960e1667eceff6207d7dacca3a" height="40px" width="40px"></img>]</div></a> 
+    <nav class="nav-links">
+      <a href="1v1.html"><strong>Ranked</strong></a>
+      <a href="2v2.html"><strong>Casual</strong></a>
+      <a href="tournaments.html"><strong>Tournaments</strong></a> 
+      <a href="leaderboards.html"><strong>Leaderboards</strong></a>
+    </nav>
+  </div>
+
+  <div class="icon-links">
+    <a href="rewards.html"><img src="https://codehs.com/uploads/1ebe0f2612be49581a63efca9b107bfb" height="30px" width="30px" alt="Leaderboards" class="header-icon"></a>
+    <a href="streaks.html"><img src="https://codehs.com/uploads/3a07e848825f4e34fb84af8c2eebba0d" height="30px" width="30px" alt="Streak" class="header-icon"></a>
+    <a href="announcements.html"><img src="https://codehs.com/uploads/0414a7538b1cd376998628b2b6a8bce2" height="30px" width="30px" alt="Inbox" class="header-icon"></a>
+    <a href="bulletin.html"><img src="https://codehs.com/uploads/70125e8db617ad9cb0f818217b8740dd" height="30px" width="30px" alt="Bulletin" class="header-icon"></a>
+    <a href="friends.html"><img src="https://codehs.com/uploads/55d49340c9ff8926277fcf6aba722b98" height="30px" width="30px" alt="Account" class="header-icon"></a>
+  
+  <div class="dropdown">
+  <a href="#" class="dropdown-toggle">
+    <img src="https://codehs.com/uploads/2db38b8ea6560b1964fdd5346b95b07a" 
+         height="30px" width="30px" alt="Dropnav" class="header-icon">
+  </a>
+  <div class="dropdown-menu">
+    <a href="profile.html">
+      <img src="https://codehs.com/uploads/e0bf720738fd3ed3e91fd9901c323097" class="dropdown-icon" alt="Profile Icon">
+      Profile
+    </a>
+    <a href="settings.html">
+      <img src="https://codehs.com/uploads/79d50f0b075ee99b7894000d07891895" class="dropdown-icon" alt="Settings Icon">
+      Settings
+    </a>
+    <a href="support.html">
+      <img src="https://codehs.com/uploads/40ab2aaa6fbe6f29fefd228fb6e6c9e4" class="dropdown-icon" alt="Profile Icon">
+      Support
+    </a>
+    <a href="index.html">
+      <img src="https://codehs.com/uploads/ec211f2b4a8657e17254843e645333e6" class="dropdown-icon" alt="Logout Icon">
+      Logout
+    </a>
+  </div>
+</div>
+  </div>
+</header>
+
+<main>
+  <div class="history-section" id="profile-content" style="display: none;">
+    <!-- PROFILE HEADER -->
+    <div class="card" style="grid-column: span 2; position: relative;">
+      
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+          <h2><span id="p-username">Player</span> | <span id="p-tag" style="color: #aaa; font-size: 0.8em;">#TAG</span></h2>
+          
+          <div id="p-badges" style="display: flex; gap: 8px; margin-bottom: 10px; align-items: center; flex-wrap: wrap;">
+            <!-- Badges will be injected here via JS -->
+          </div>
+        </div>
+
+        <!-- Friend Request Button -->
+        <button id="friend-btn" class="friend-btn" style="display: none;">+ Add Friend</button>
+      </div>
+
+      <p id="p-joined">Joined: Loading...</p>
+      <div class="elo" id="p-overall-elo">Overall ELO: Loading...</div>
+    </div>
+
+    <!-- TOP ROW: ELO BOXES -->
+    <div class="card player-stats-card">
+      <h3>1v1 Ranked</h3>
+      <hr>
+      <div class="stat-row">
+        <span class="stat-label">ELO:</span>
+        <span class="stat-value" id="p-1v1-elo">...</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Global Rank:</span>
+        <span class="stat-value" id="p-1v1-rank">...</span>
+      </div>
+      <hr>
+      <div class="stat-row">
+        <span class="stat-label">Win Rate:</span>
+        <span class="stat-value" id="p-1v1-winrate">...</span>
+      </div>
+    </div>
+
+    <!-- OVERALL STATS -->
+    <div class="card" style="grid-column: span 2;">
+      <h3>Overall Stats</h3>
+      <ul>
+        <li>Total Wins: <span id="p-wins">0</span></li>
+        <li>Total Losses: <span id="p-losses">0</span></li>
+        <li>Win Rate: <span id="p-overall-winrate">0%</span></li>
+        <li>Current Rank Tier: <span id="p-tier" style="color: #f6c73b; font-weight: bold;">Unranked</span></li>
+        <li>Total Matches: <span id="p-matches">0</span></li>
+      </ul>
+    </div>
+
+    <!-- BULLETIN -->
+    <div class="card">
+      <h3>Bulletin / Announcements</h3>
+      <ul>
+        <li>Server maintenance scheduled for Oct 31 at 3 PM UTC.</li>
+        <li>New tournament mode coming next week!</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Loading / Error Message -->
+  <div id="message-container" style="text-align: center; padding: 50px; font-size: 1.2em; color: #f6c73b;">
+    Loading profile...
+  </div>
+</main>
+
+<footer>
+  <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. ©Room310 Holdings — Parent company of RankedRoyale. Not affiliated with Supercell.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="theme.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const supabaseUrl = 'https://bxhxfsfpzbluevvimvyy.supabase.co';
+    const supabaseKey = 'sb_publishable_POfMVVd3io00nMXGlRc2eQ_jndDE2oj';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    const messageContainer = document.getElementById("message-container");
+    const profileContent = document.getElementById("profile-content");
+    const friendBtn = document.getElementById('friend-btn');
+
+    try {
+      // 1. Get logged-in user and determine whose profile we are viewing
+      const { data: { user: currentUser }, error: authError } = await supabase.auth.getUser();
+      const urlParams = new URLSearchParams(window.location.search);
+      let targetUserId = urlParams.get('id');
+
+      // If no ID in the URL, try to show the logged-in user's profile
+      if (!targetUserId) {
+        if (currentUser) {
+          targetUserId = currentUser.id;
+        } else {
+          messageContainer.innerHTML = "Profile not found. Please select a player from the leaderboard.";
+          return;
+        }
+      }
+
+      // 2. Fetch the requested profile from Supabase
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', targetUserId)
+        .single(); // Gets exactly one row
+
+      if (error || !profile) {
+        messageContainer.innerHTML = "Could not find this player's profile!";
+        return;
+      }
+
+      // 3. Fetch all players so we can calculate this player's global rank
+      const { data: allProfiles } = await supabase.from('profiles').select('id, elo_rating');
+      let globalRank = "N/A";
+      if (allProfiles) {
+        // Sort highest ELO to lowest
+        allProfiles.sort((a, b) => (parseInt(b.elo_rating) || 0) - (parseInt(a.elo_rating) || 0));
+        const rankIndex = allProfiles.findIndex(p => p.id === targetUserId);
+        if (rankIndex !== -1) globalRank = `#${rankIndex + 1}`;
+      }
+
+      // 4. Update the HTML with the player's data
+      messageContainer.style.display = "none";
+      profileContent.style.display = "grid"; // Show the profile
+
+      const elo = parseInt(profile.elo_rating) || 1000;
+      
+      // Basic info
+      document.getElementById('p-username').innerText = profile.username || "Unknown Player";
+      document.getElementById('p-tag').innerText = profile.player_tag ? `#${profile.player_tag}` : "";
+      document.getElementById('p-overall-elo').innerText = `Overall ELO: ${elo}`;
+      document.getElementById('p-1v1-elo').innerText = elo;
+      document.getElementById('p-1v1-rank').innerText = globalRank;
+
+      // Handle joined date
+      if (profile.created_at) {
+        const date = new Date(profile.created_at);
+        document.getElementById('p-joined').innerText = `Joined: ${date.toLocaleDateString()}`;
+      } else {
+        document.getElementById('p-joined').innerText = `Joined: Unknown`;
+      }
+
+      // Calculate stats
+      const wins = profile.wins || 0; 
+      const losses = profile.losses || 0;
+      const totalMatches = wins + losses;
+      let winRate = 0;
+      if (totalMatches > 0) {
+        winRate = Math.round((wins / totalMatches) * 100);
+      }
+
+      document.getElementById('p-wins').innerText = wins;
+      document.getElementById('p-losses').innerText = losses;
+      document.getElementById('p-matches').innerText = totalMatches;
+      document.getElementById('p-1v1-winrate').innerText = `${winRate}%`;
+      document.getElementById('p-overall-winrate').innerText = `${winRate}%`;
+
+      // 5. Dynamic Badge & Tier System based on ELO!
+      const badgesDiv = document.getElementById('p-badges');
+      const tierSpan = document.getElementById('p-tier');
+      
+      // --- CUSTOM BADGE SYSTEM DICTIONARY ---
+      const badgeIcons = {
+        'premium': '<button class="badge-btn" title="Premium" style="background: linear-gradient(135deg, #606060, #a0a0a0); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/915597b5ef64f1e1c207177364bb63bd" width="12" height="12" alt="Crown Icon"><strong>Premium</strong></button>',
+        'youtube': '<button class="badge-btn" title="10K Youtube Subscribers" style="background: linear-gradient(135deg, #2b0000, #550000); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/80969e3b6ffc8341ddc52c2efb787980" width="12" height="12" alt="Crown Icon"><strong>Youtube</strong></button>',
+        'creator': '<button class="badge-btn" title="Supercell Creator" style="background: linear-gradient(135deg, #004d00, #00b300); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/915597b5ef64f1e1c207177364bb63bd" width="12" height="12" alt="Crown Icon"><strong>Supercell Creator</strong></button>',
+        'pro': '<button class="badge-btn" title="CRL Qualifier" style="background: linear-gradient(135deg, #0b0c10, #1a1a2e); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/e1b8bac36ac6b4e149f2466b83a3eb05" width="12" height="12" alt="Crown Icon"><strong>Pro</strong></button>',
+        'twitch': '<button class="badge-btn" title="5,000 Twitch Followers" style="background: linear-gradient(135deg, #5b2bbf, #3e1e8c); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/abb539c2ee683f03b44a806415028fb3" width="12" height="12" alt="Crown Icon"><strong>Twitch</strong></button>',
+        'tiktok': '<button class="badge-btn" title="50,000 TikTok Followers" style="background: linear-gradient(135deg, #00b3b3, #ff0050); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/5ce01f5d7f0da4f0b23ca69a8e2a56f6" width="12" height="12" alt="Crown Icon"><strong>TikTok</strong></button>',
+        'white_hat': '<button class="badge-btn" title="Found a Site Breaking Bug" style="background: linear-gradient(135deg, #ffffff, #cfd8dc, #90a4ae); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/f0d1664bee275473ed109dfa3f96c37a" width="20" height="20" alt="Crown Icon"><strong>White Hat</strong></button>',
+        'bug_hunter': '<button class="badge-btn" title="Helped Staff Find Bugs" style="background: linear-gradient(135deg, #ffffff, #90a4ae); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/288be4e34ee5e5d12b9f404c3782bac9" width="18" height="18" alt="Crown Icon"><strong>Bug Hunter</strong></button>',
+        'alpha_tester': '<button class="badge-btn" title="Helped Test During Alpha" style="background: linear-gradient(135deg, #ffb347, #ff4d4d); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/09e527ef6c41758428f39f6d909e9908" width="15" height="15" alt="Crown Icon"><strong>Alpha Tester</strong></button>',
+        'beta_tester': '<button class="badge-btn" title="Helped Test During Beta" style="background: linear-gradient(135deg, #ffb347, #ff4d4d); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/09e527ef6c41758428f39f6d909e9908" width="15" height="15" alt="Crown Icon"><strong>Beta Tester</strong></button>',
+        'early_supporter': '<button class="badge-btn" title="First 1000 Users" style="background: linear-gradient(135deg, #ffb347, #ff4d4d); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/09e527ef6c41758428f39f6d909e9908" width="15" height="15" alt="Crown Icon"><strong>Early Supporter</strong></button>',
+        'donator': '<button class="badge-btn" title="Donated to the Site" style="background: linear-gradient(135deg,  #212121, #4caf50); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/d24257832dbf1e89e73e620cd17f9118" width="15" height="15" alt="Crown Icon"><strong>Donator</strong></button>',
+        'beloved': '<button class="badge-btn" title="Reached 1000 Friends" style="background: linear-gradient(135deg, #4caf50, #8dd3b6); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/fd42849ca97f4709c66be581a3d46e45" width="15" height="15" alt="Crown Icon"><strong>The Beloved</strong></button>',
+        'top_player': '<button class="badge-btn" title="Top 100 Ranked Finish" style="background: linear-gradient(135deg, #0b0c10, #1a1a2e); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/6b9e7e650ab7ecd3843182da1d3a7077" width="12" height="12" alt="Crown Icon"><strong>Top Player</strong></button>',
+        'staff': '<button class="badge-btn" title="Official RankedRoyale Staff Member" style="background: linear-gradient(135deg, #66ccff, #3399ff); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/a764f174aefc417e0a7b6a24e2d098af" width="12" height="12" alt="Crown Icon"><strong>Staff</strong></button>',
+        'admin': '<button class="badge-btn" title="Official RankedRoyale Admin" style="background: linear-gradient(135deg, #800000, #2b0000); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/a764f174aefc417e0a7b6a24e2d098af" width="12" height="12" alt="Crown Icon"><strong>Admin</strong></button>',
+        'verified': '<button class="badge-btn" title="Verified" style="background: linear-gradient(135deg, #004d00, #00b300); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;"><img src="https://codehs.com/uploads/915597b5ef64f1e1c207177364bb63bd" width="12" height="12" alt="Crown Icon"><strong>Verified</strong></button>',
+        'founder': '<button class="founder-badge-btn" title="Platform Founder"><img src="https://codehs.com/uploads/6b9e7e650ab7ecd3843182da1d3a7077" width="12" height="12" alt="Crown Icon"><strong>Founder</strong></button>',
+      };
+
+      let customBadgesHtml = "";
+      
+      // NEW: Add the premium badge first if the user is Premium!
+      if (profile.premium) {
+        customBadgesHtml += badgeIcons['premium'];
+      }
+      
+      // Process custom badges from database
+      if (profile.badges) {
+        let badgeList = [];
+        if (Array.isArray(profile.badges)) {
+          badgeList = profile.badges;
+        } else if (typeof profile.badges === 'string') {
+          badgeList = profile.badges.split(',');
+        }
+
+        badgeList.forEach(badge => {
+          const b = badge.trim().toLowerCase();
+          if (badgeIcons[b]) {
+            customBadgesHtml += badgeIcons[b];
+          }
+        });
+      }
+
+      badgesDiv.innerHTML = customBadgesHtml;
+
+      // Add the ELO Rank tier badge after the custom icons
+      if (elo >= 1500) {
+        tierSpan.innerText = "Champion Tier";
+        tierSpan.style.color = "#ff00ff";
+        badgesDiv.innerHTML += `<span class="badge badge-champion">Champion</span>`;
+      } else if (elo >= 1200) {
+        tierSpan.innerText = "Gold Tier";
+        tierSpan.style.color = "#ffd700";
+        badgesDiv.innerHTML += `<span class="badge badge-gold">Gold</span>`;
+      } else if (elo >= 1050) {
+        tierSpan.innerText = "Silver Tier";
+        tierSpan.style.color = "#c0c0c0";
+        badgesDiv.innerHTML += `<span class="badge badge-silver">Silver</span>`;
+      } else {
+        tierSpan.innerText = "Bronze Tier";
+        tierSpan.style.color = "#cd7f32";
+        badgesDiv.innerHTML += `<span class="badge badge-bronze">Bronze</span>`;
+      }
+
+
+      // 6. FRIEND REQUEST LOGIC
+      if (currentUser && targetUserId && currentUser.id !== targetUserId) {
+        friendBtn.style.display = 'inline-block'; // Show button if looking at someone else's profile
+
+        // Re-usable function to check friendship status
+        const checkFriendship = async () => {
+          // Check for a record between these two users
+          const { data: relationship, error } = await supabase
+            .from('friendships')
+            .select('*')
+            .or(`and(requester_id.eq.${currentUser.id},receiver_id.eq.${targetUserId}),and(requester_id.eq.${targetUserId},receiver_id.eq.${currentUser.id})`)
+            .maybeSingle(); // maybeSingle returns null instead of throwing an error if no row exists
+
+          if (relationship) {
+            // A request/friendship exists
+            if (relationship.status === 'accepted') {
+              friendBtn.innerText = '✓ Friends';
+              friendBtn.className = 'friend-btn friends';
+              friendBtn.disabled = true; // Optionally add remove friend logic here later
+            } else if (relationship.status === 'pending') {
+              if (relationship.requester_id === currentUser.id) {
+                // You sent the request
+                friendBtn.innerText = 'Request Sent';
+                friendBtn.disabled = true;
+              } else {
+                // They sent you a request, allow accepting
+                friendBtn.innerText = 'Accept Request';
+                friendBtn.disabled = false;
+                friendBtn.onclick = async () => {
+                  friendBtn.innerText = 'Accepting...';
+                  friendBtn.disabled = true;
+                  await supabase.from('friendships').update({ status: 'accepted' }).eq('id', relationship.id);
+                  checkFriendship(); // Refresh button state
+                };
+              }
+            }
+          } else {
+            // Not friends yet, can send a request
+            friendBtn.innerText = '+ Add Friend';
+            friendBtn.className = 'friend-btn';
+            friendBtn.disabled = false;
+            friendBtn.onclick = async () => {
+              friendBtn.disabled = true;
+              friendBtn.innerText = 'Sending...';
+              await supabase.from('friendships').insert([{
+                requester_id: currentUser.id,
+                receiver_id: targetUserId,
+                status: 'pending'
+              }]);
+              checkFriendship(); // Refresh button state
+            };
+          }
+        };
+
+        // Initialize button state
+        checkFriendship();
+      }
+
+    } catch (err) {
+      console.error(err);
+      messageContainer.innerHTML = "An error occurred loading the profile.";
+    }
+  });
+
+  // Dropdown Menu Logic
+  const dropdownToggle = document.querySelector('.dropdown-toggle');
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+  dropdownToggle.addEventListener('click', function(e){
+    e.preventDefault();
+    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+  });
+  window.addEventListener('click', function(e){
+    if(!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)){
+      dropdownMenu.style.display = 'none';
+    }
+  });
+</script>
+<script>
+  // Dropdown toggle
+  const toggle = document.querySelector('.dropdown-toggle');
+  const menu = document.querySelector('.dropdown-menu');
+
+  toggle.addEventListener('click', e => {
+    e.preventDefault();
+    menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  window.addEventListener('click', e => {
+    if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+      menu.style.display = 'none';
+    }
+  });
+  
+  async function checkNotifications() {
+      const supabaseUrl = 'https://bxhxfsfpzbluevvimvyy.supabase.co';
+      const supabaseKey = 'sb_publishable_POfMVVd3io00nMXGlRc2eQ_jndDE2oj';
+      
+      if (window.supabase) {
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        // Use getSession for a reliable way to check auth status on page load
+        const { data: { session } } = await supabase.auth.getSession();
+        const user = session?.user;
+        
+        if (user) {
+          // Check friendships table for pending requests where you are the receiver
+          const { data, error } = await supabase
+            .from('friendships')
+            .select('id')
+            .eq('receiver_id', user.id)
+            .eq('status', 'pending');
+
+          const dot = document.getElementById('friend-notification');
+          if (dot) {
+            dot.style.display = (data && data.length > 0) ? 'block' : 'none';
+          }
+        }
+      }
+    }
+
+    // Initialize notification check on load
+    window.addEventListener('DOMContentLoaded', checkNotifications);
+</script>
+</body>
+</html>

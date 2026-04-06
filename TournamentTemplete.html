@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ranked Royale - Tournament</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .force-show-dropdown {
+      display: flex !important;
+      flex-direction: column;
+    }
+    .icon-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .notification-dot {
+      display: none;
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      border-radius: 50%;
+      border: 2px solid #1e1e24; 
+      z-index: 10;
+    }
+    .loading-text {
+      color: #888;
+      font-style: italic;
+    }
+    .action-btn {
+      border: none; 
+      border-radius: 8px; 
+      padding: 10px 20px; 
+      font-size: 16px; 
+      font-weight: bold;
+      cursor: pointer; 
+      display: none; 
+      margin-top: 15px;
+      transition: opacity 0.2s;
+    }
+    .action-btn:hover {
+      opacity: 0.8;
+    }
+    .btn-join {
+      background: linear-gradient(135deg, #004d00, #00b300); 
+      color: white;
+    }
+    .btn-leave {
+      background: linear-gradient(135deg, #8b0000, #d30000); 
+      color: white;
+    }
+    .btn-request {
+      background: linear-gradient(135deg, #cc8400, #ffc107); 
+      color: black;
+    }
+    .roster-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .roster-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .roster-list li:last-child {
+      border-bottom: none;
+    }
+    .player-link {
+      color: inherit;
+      text-decoration: none;
+    }
+    .player-link:hover {
+      text-decoration: underline;
+      color: #f6c73b;
+    }
+    /* New Verified Styles */
+    .verified-title {
+      color: #f6c73b !important;
+    }
+    #badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    /* Host Controls */
+    .host-section {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      border: 1px solid #444;
+    }
+    .req-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #333;
+    }
+    .btn-acc { background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+    .btn-den { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 5px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="left-section">
+      <a href="home.html"><div class="brand">Ranked <span>Royale</span>[<img src="https://codehs.com/uploads/ae233c960e1667eceff6207d7dacca3a" height="40px" width="40px" alt="Logo"></img>]</div></a> 
+      <nav class="nav-links">
+        <a href="1v1.html"><strong>Ranked</strong></a>
+        <a href="2v2.html"><strong>Casual</strong></a>
+        <a href="tournaments.html"><strong>Tournaments</strong></a> 
+        <a href="leaderboards.html"><strong>Leaderboards</strong></a>
+      </nav>
+    </div>
+
+    <div class="icon-links">
+      <a href="rewards.html"><img src="https://codehs.com/uploads/1ebe0f2612be49581a63efca9b107bfb" height="30px" width="30px" alt="Leaderboards" class="header-icon"></a>
+      <a href="streaks.html"><img src="https://codehs.com/uploads/3a07e848825f4e34fb84af8c2eebba0d" height="30px" width="30px" alt="Streak" class="header-icon"></a>
+      <a href="announcements.html"><img src="https://codehs.com/uploads/0414a7538b1cd376998628b2b6a8bce2" height="30px" width="30px" alt="Inbox" class="header-icon"></a>
+      <a href="bulletin.html"><img src="https://codehs.com/uploads/70125e8db617ad9cb0f818217b8740dd" height="30px" width="30px" alt="Bulletin" class="header-icon"></a>
+      
+      <a href="friends.html" class="icon-wrapper">
+        <div id="friend-notification" class="notification-dot"></div>
+        <img src="https://codehs.com/uploads/55d49340c9ff8926277fcf6aba722b98" height="30px" width="30px" alt="Account" class="header-icon">
+      </a>
+    
+      <div class="dropdown">
+        <a href="#" class="dropdown-toggle">
+          <img src="https://codehs.com/uploads/2db38b8ea6560b1964fdd5346b95b07a" 
+               height="30px" width="30px" alt="Dropnav" class="header-icon">
+        </a>
+        <div class="dropdown-menu">
+          <a href="profile.html">
+            <img src="https://codehs.com/uploads/e0bf720738fd3ed3e91fd9901c323097" class="dropdown-icon" alt="Profile Icon">
+            Profile
+          </a>
+          <a href="settings.html">
+            <img src="https://codehs.com/uploads/79d50f0b075ee99b7894000d07891895" class="dropdown-icon" alt="Settings Icon">
+            Settings
+          </a>
+          <a href="support.html">
+            <img src="https://codehs.com/uploads/40ab2aaa6fbe6f29fefd228fb6e6c9e4" class="dropdown-icon" alt="Profile Icon">
+            Support
+          </a>
+          <a href="index.html">
+            <img src="https://codehs.com/uploads/ec211f2b4a8657e17254843e645333e6" class="dropdown-icon" alt="Logout Icon">
+            Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="history-section">
+      <div class="card" style="grid-column: span 2;">
+        <h1 id="page-title">Loading Tournament...</h1>
+        
+        <div id="badge-container">
+          <!-- Badges will be dynamically inserted here -->
+        </div>
+
+        <p id="val-spots">Viewers: -- | Total Spots: <span class="loading-text">Loading...</span> | Available Spots: <span class="loading-text">Loading...</span></p>
+        <div class="elo" id="val-prize-top">Tournament Prize: Loading... </div>
+
+        <button id="btn-join" class="action-btn btn-join">Join Tournament</button>
+        <button id="btn-request" class="action-btn btn-request">Request to Join</button>
+        <button id="btn-leave" class="action-btn btn-leave">Leave Tournament</button>
+        <p id="action-msg" style="color: #ff4d4d; font-size: 14px; display: none; margin-top: 10px;"></p>
+
+        <div id="host-dashboard" class="host-section" style="display: none;">
+          <h3 style="margin-top: 0;">Pending Requests</h3>
+          <div id="pending-list">
+            <p class="loading-text">No pending requests.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card player-stats-card">
+        <h3>Important Info</h3>
+        <hr>
+        <div class="stat-row">
+          <span class="stat-label">Format:</span>
+          <span class="stat-value" id="val-format"><span class="loading-text">Loading...</span></span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Time:</span>
+          <span class="stat-value" id="val-time"><span class="loading-text">Loading...</span></span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Date:</span>
+          <span class="stat-value" id="val-date"><span class="loading-text">Loading...</span></span>
+        </div>
+        <hr>
+        <div class="stat-row">
+          <span class="stat-label">Discord:</span>
+          <span class="stat-value" id="val-discord"><span class="loading-text">Loading...</span></span>
+        </div>
+        <hr>
+      </div>
+
+      <div class="card player-stats-card">
+        <h3>Other Info</h3>
+        <hr>
+        <div class="stat-row">
+          <span class="stat-label">Weight:</span>
+          <span class="stat-value" id="val-weight"><span class="loading-text">Loading...</span></span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Difficulty:</span>
+          <span class="stat-value" id="val-difficulty"><span class="loading-text">Loading...</span></span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Verified:</span>
+          <span class="stat-value" id="val-verified">No</span>
+        </div>
+        <hr>
+      </div>
+
+      <div class="card player-stats-card">
+        <h3>Requirements</h3>
+        <hr>
+        <div class="stat-row">
+          <span class="stat-label">Stars:</span>
+          <span class="stat-value" id="val-stars"><span class="loading-text">Loading...</span></span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Finish:</span>
+          <span class="stat-value" id="val-finish"><span class="loading-text">Loading...</span></span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Rep:</span>
+          <span class="stat-value" id="val-rep"><span class="loading-text">Loading...</span></span>
+        </div>
+        <hr>
+      </div>
+        
+      <div class="card player-stats-card">
+        <h3>Host Info</h3>
+        <hr>
+        <div class="stat-row">
+          <span class="stat-label">Host:</span>
+          <span class="stat-value" id="val-host"><span class="loading-text">Loading...</span></span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Prize:</span>
+          <span class="stat-value" id="val-prize"><span class="loading-text">Loading...</span></span>
+        </div>
+        <hr>
+        <div class="stat-row">
+          <span class="stat-label">Host Link:</span>
+          <span class="stat-value" id="val-host-link">None</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Description</h3>
+        <ul id="val-desc">
+          <li><span class="loading-text">Loading description...</span></li>
+        </ul>
+      </div>
+
+      <div class="card" style="grid-column: span 2;">
+        <h3>Participants (<span id="roster-count">0</span>)</h3>
+        <ul id="roster-list" class="roster-list">
+          <li><span class="loading-text">Loading players...</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. ©Room310 Holdings — Parent company of RankedRoyale. Not affiliated with Supercell.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="theme.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+
+      // 1. DROPDOWN LOGIC
+      const toggle = document.querySelector('.dropdown-toggle');
+      const menu = document.querySelector('.dropdown-menu');
+      if (toggle && menu) {
+        toggle.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          menu.classList.toggle('force-show-dropdown');
+        });
+        window.addEventListener('click', (e) => {
+          if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove('force-show-dropdown');
+          }
+        });
+      }
+
+      // 2. SUPABASE INITIALIZATION
+      const supabaseUrl = 'https://bxhxfsfpzbluevvimvyy.supabase.co';
+      const supabaseKey = 'sb_publishable_POfMVVd3io00nMXGlRc2eQ_jndDE2oj';
+      const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+      // State Variables
+      let currentUser = null;
+      let userProfile = { username: "Player", elo: 1000 };
+      let tournamentCapacity = 0;
+      let participantCount = 0;
+      let userStatus = null; 
+      let isHost = false;
+
+      const params = new URLSearchParams(window.location.search);
+      const tournamentId = params.get('id');
+
+      // UI Elements
+      const btnJoin = document.getElementById('btn-join');
+      const btnRequest = document.getElementById('btn-request');
+      const btnLeave = document.getElementById('btn-leave');
+      const actionMsg = document.getElementById('action-msg');
+      const rosterList = document.getElementById('roster-list');
+      const rosterCountEl = document.getElementById('roster-count');
+      const valSpots = document.getElementById('val-spots');
+      const hostDashboard = document.getElementById('host-dashboard');
+      const pendingList = document.getElementById('pending-list');
+
+      // 3. FETCH NOTIFICATIONS
+      async function checkNotifications(userId) {
+        try {
+          const { data } = await supabase
+            .from('friendships')
+            .select('id')
+            .eq('receiver_id', userId)
+            .eq('status', 'pending');
+          const dot = document.getElementById('friend-notification');
+          if (dot) dot.style.display = (data && data.length > 0) ? 'block' : 'none';
+        } catch (err) {}
+      }
+
+      // 4. FETCH CURRENT USER & PROFILE
+      async function initializeUser() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          currentUser = user;
+          checkNotifications(user.id);
+
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', user.id)
+            .single();
+          
+          if (profile) {
+            userProfile.username = profile.username || profile.display_name || profile.name || 'Player';
+            userProfile.elo = profile.elo_rating ?? profile.elo ?? 1000;
+          }
+        }
+      }
+
+      // 5. FETCH TOURNAMENT DATA
+      async function loadTournamentData() {
+        if (!tournamentId) {
+          document.getElementById('page-title').textContent = "Tournament Not Found";
+          document.getElementById('val-desc').innerHTML = "<li>No tournament ID provided.</li>";
+          return;
+        }
+
+        try {
+          const { data, error } = await supabase
+            .from('tournaments')
+            .select('*')
+            .eq('id', tournamentId)
+            .single();
+
+          if (error) throw error;
+
+          if (data) {
+            const titleEl = document.getElementById('page-title');
+            titleEl.textContent = data.name || 'Unnamed Tournament';
+            
+            if (currentUser && data.creator_id === currentUser.id) {
+              isHost = true;
+              hostDashboard.style.display = 'block';
+              loadPendingRequests();
+            }
+
+            // BADGE LOGIC
+            const verifiedVal = document.getElementById('val-verified');
+            const badgeContainer = document.getElementById('badge-container');
+            
+            // Clear container before re-adding (to avoid duplicates on refresh)
+            badgeContainer.innerHTML = '';
+
+            // Verified Badge
+            if (data.is_verified === true) {
+              titleEl.classList.add('verified-title');
+              verifiedVal.textContent = "Yes";
+              badgeContainer.insertAdjacentHTML('beforeend', `
+                <button class="badge-btn verified-badge" title="Supercell Creator" 
+                  style="background: linear-gradient(135deg, #004d00, #00b300); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <img src="https://codehs.com/uploads/915597b5ef64f1e1c207177364bb63bd" width="12" height="12" alt="Crown Icon">
+                  <strong>Verified Tournament</strong>
+                </button>
+              `);
+            } else {
+              titleEl.classList.remove('verified-title');
+              verifiedVal.textContent = "No";
+            }
+
+            // Pro Tournament Badge
+            if (data.pro_tournament === true) {
+              badgeContainer.insertAdjacentHTML('beforeend', `
+                <button class="badge-btn" title="Pro Tournament" style="background: linear-gradient(135deg, #0b0c10, #1a1a2e); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <img src="https://codehs.com/uploads/6b9e7e650ab7ecd3843182da1d3a7077" width="12" height="12" alt="Pro Icon">
+                  <strong>Pro Tournament</strong>
+                </button>
+              `);
+            }
+
+            // Broadcasted Badge
+            if (data.broadcasted === true) {
+              badgeContainer.insertAdjacentHTML('beforeend', `
+                <button class="badge-btn" title="Broadcasted" style="background: linear-gradient(135deg, #2b0000, #550000); color: #f6c73b; border: none; border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <img src="https://codehs.com/uploads/80969e3b6ffc8341ddc52c2efb787980" width="12" height="12" alt="Broadcast Icon">
+                  <strong>Broadcasted</strong>
+                </button>
+              `);
+            }
+            
+            const prize = data.prize || 'None';
+            document.getElementById('val-prize').textContent = prize;
+            document.getElementById('val-prize-top').textContent = "Tournament Prize: " + prize;
+            document.getElementById('val-format').textContent = data.format || 'Standard';
+            document.getElementById('val-time').textContent = data.time || 'TBA';
+            document.getElementById('val-date').textContent = data.date || 'TBA';
+            document.getElementById('val-difficulty').textContent = data.difficulty || 'Normal';
+            document.getElementById('val-host').textContent = data.host_name || 'TBA';
+            
+            tournamentCapacity = parseInt(data.capacity) || 0;
+            document.getElementById('val-weight').textContent = data.weight || '0';
+            document.getElementById('val-stars').textContent = data.req_stars || '0';
+            document.getElementById('val-finish').textContent = data.req_finish || 'None';
+            document.getElementById('val-rep').textContent = data.req_rep || 'None';
+
+            const link = data.discord_link || data.discord; 
+            if (link) {
+              document.getElementById('val-discord').innerHTML = `<a href="${link}" target="_blank" style="color: #007bff; text-decoration: none;">Join Server</a>`;
+            } else {
+              document.getElementById('val-discord').textContent = 'No link provided';
+            }
+
+            const descriptionText = data.description || data.requirements;
+            document.getElementById('val-desc').innerHTML = `<li>${descriptionText || 'No description provided.'}</li>`;
+          }
+          return data;
+        } catch (err) {
+          console.error("Error fetching tournament:", err);
+        }
+      }
+
+      // 6. ROSTER LOAD
+      async function loadRoster() {
+        if (!tournamentId) return;
+
+        try {
+          const { data: participants, error: pErr } = await supabase
+            .from('tournament_participants')
+            .select('*')
+            .eq('tournament_id', tournamentId);
+
+          if (pErr) throw pErr;
+
+          const joined = participants.filter(p => p.status === 'joined' || !p.status);
+          const pending = participants.filter(p => p.status === 'pending');
+
+          participantCount = joined.length;
+          rosterCountEl.textContent = participantCount;
+
+          userStatus = null;
+          if (currentUser) {
+            const myEntry = participants.find(p => p.user_id === currentUser.id);
+            if (myEntry) userStatus = myEntry.status || 'joined';
+          }
+
+          const availableSpots = Math.max(0, tournamentCapacity - participantCount);
+          valSpots.innerHTML = `Viewers: -- | Total Spots: ${tournamentCapacity > 0 ? tournamentCapacity : '--'} | Available Spots: ${tournamentCapacity > 0 ? availableSpots : '--'}`;
+
+          btnJoin.style.display = 'none';
+          btnRequest.style.display = 'none';
+          btnLeave.style.display = 'none';
+          actionMsg.style.display = 'none';
+
+          if (!currentUser) {
+            actionMsg.style.display = 'block';
+            actionMsg.textContent = "Please log in to join.";
+          } else if (userStatus === 'joined') {
+            btnLeave.style.display = 'inline-block';
+          } else if (userStatus === 'pending') {
+            actionMsg.style.display = 'block';
+            actionMsg.textContent = "Request pending host approval.";
+            btnLeave.style.display = 'inline-block';
+            btnLeave.textContent = "Cancel Request";
+          } else if (userStatus === 'denied') {
+            actionMsg.style.display = 'block';
+            actionMsg.textContent = "You have been denied entry to this tournament.";
+          } else {
+            if (tournamentCapacity > 0 && participantCount >= tournamentCapacity) {
+              actionMsg.style.display = 'block';
+              actionMsg.textContent = "Tournament is full.";
+            } else {
+              const tournament = await loadTournamentData();
+              const isPublic = (tournament.join_status === true || tournament.join_status === 'Public');
+              if (isPublic) {
+                btnJoin.style.display = 'inline-block';
+              } else {
+                btnRequest.style.display = 'inline-block';
+              }
+            }
+          }
+
+          if (joined.length === 0) {
+            rosterList.innerHTML = `<li><span class="loading-text">No players have joined yet.</span></li>`;
+          } else {
+            const userIds = joined.map(p => p.user_id);
+            const { data: profiles } = await supabase.from('profiles').select('id, username').in('id', userIds);
+
+            rosterList.innerHTML = '';
+            joined.forEach(player => {
+              const prof = profiles?.find(pr => pr.id === player.user_id);
+              const displayName = prof?.username || player.username || 'Unknown';
+              
+              const li = document.createElement('li');
+              li.innerHTML = `
+                <span><a href="profile.html?id=${player.user_id}" class="player-link"><strong>${displayName}</strong></a></span>
+                <span style="color: #f6c73b;">ELO: ${player.elo || 1000}</span>
+              `;
+              rosterList.appendChild(li);
+            });
+          }
+
+        } catch (err) {
+          console.error("Critical error loading roster:", err);
+        }
+      }
+
+      async function loadPendingRequests() {
+        if (!tournamentId || !isHost) return;
+        const { data: pending } = await supabase
+          .from('tournament_participants')
+          .select('*')
+          .eq('tournament_id', tournamentId)
+          .eq('status', 'pending');
+        
+        pendingList.innerHTML = '';
+        if (!pending || pending.length === 0) {
+          pendingList.innerHTML = '<p class="loading-text">No pending requests.</p>';
+          return;
+        }
+
+        pending.forEach(req => {
+          const div = document.createElement('div');
+          div.className = 'req-item';
+          div.innerHTML = `
+            <span><strong>${req.username}</strong> (ELO: ${req.elo})</span>
+            <div>
+              <button class="btn-acc" data-id="${req.id}">Accept</button>
+              <button class="btn-den" data-id="${req.id}">Deny</button>
+            </div>
+          `;
+          pendingList.appendChild(div);
+        });
+
+        pendingList.querySelectorAll('.btn-acc').forEach(b => b.addEventListener('click', () => updateRequest(b.dataset.id, 'joined')));
+        pendingList.querySelectorAll('.btn-den').forEach(b => b.addEventListener('click', () => updateRequest(b.dataset.id, 'denied')));
+      }
+
+      async function updateRequest(id, newStatus) {
+        await supabase.from('tournament_participants').update({ status: newStatus }).eq('id', id);
+        loadPendingRequests();
+        loadRoster();
+      }
+
+      // 7. JOIN / REQUEST / LEAVE
+      btnJoin.addEventListener('click', async () => {
+        if (!currentUser || !tournamentId) return;
+        await supabase.from('tournament_participants').insert({
+          tournament_id: tournamentId,
+          user_id: currentUser.id,
+          username: userProfile.username,
+          elo: userProfile.elo,
+          status: 'joined'
+        });
+        await loadRoster();
+      });
+
+      btnRequest.addEventListener('click', async () => {
+        if (!currentUser || !tournamentId) return;
+        await supabase.from('tournament_participants').insert({
+          tournament_id: tournamentId,
+          user_id: currentUser.id,
+          username: userProfile.username,
+          elo: userProfile.elo,
+          status: 'pending'
+        });
+        await loadRoster();
+      });
+
+      btnLeave.addEventListener('click', async () => {
+        if (!currentUser || !tournamentId) return;
+        await supabase.from('tournament_participants')
+          .delete()
+          .eq('tournament_id', tournamentId)
+          .eq('user_id', currentUser.id);
+        await loadRoster();
+        if (isHost) loadPendingRequests();
+      });
+
+      // 8. REAL-TIME UPDATES (SUPABASE REALTIME)
+      function setupRealtime() {
+        if (!tournamentId) return;
+
+        supabase
+          .channel('tournament-updates')
+          .on('postgres_changes', { 
+              event: 'UPDATE', 
+              schema: 'public', 
+              table: 'tournaments', 
+              filter: `id=eq.${tournamentId}` 
+          }, (payload) => {
+            loadTournamentData();
+          })
+          .subscribe();
+
+        supabase
+          .channel('participant-updates')
+          .on('postgres_changes', { 
+              event: '*', 
+              schema: 'public', 
+              table: 'tournament_participants', 
+              filter: `tournament_id=eq.${tournamentId}` 
+          }, (payload) => {
+            loadRoster();
+            if (isHost) loadPendingRequests();
+          })
+          .subscribe();
+      }
+
+      // Init sequence
+      await initializeUser();
+      await loadTournamentData();
+      await loadRoster();
+      setupRealtime();
+    });
+  </script>
+</body>
+</html>

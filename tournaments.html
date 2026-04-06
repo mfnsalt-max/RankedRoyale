@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ranked Royale - Tournaments</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Modal Overlay Styles */
+    .modal-overlay {
+      display: none; 
+      position: fixed; 
+      z-index: 1000; 
+      left: 0;
+      top: 0;
+      width: 100%; 
+      height: 100%; 
+      overflow: auto; 
+      background-color: rgba(0,0,0,0.8);
+      backdrop-filter: blur(4px);
+    }
+
+    /* Modal Content Box */
+    .modal-content {
+      background-color: #1e1e24; 
+      margin: 5% auto; 
+      padding: 20px 30px;
+      border: 1px solid #333;
+      border-radius: 12px;
+      width: 90%; 
+      max-width: 600px;
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    /* Close Button */
+    .close-modal {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    .close-modal:hover,
+    .close-modal:focus {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      color: #ccc;
+    }
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #444;
+      background-color: #2a2a32;
+      color: white;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+    .form-group input:focus, 
+    .form-group select:focus, 
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #007bff; 
+    }
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+    .form-row .form-group {
+      flex: 1;
+    }
+    
+    /* Create Button styling */
+    #open-create-modal {
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #28a745; 
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+    #open-create-modal:hover {
+      background-color: #218838;
+    }
+    #open-create-modal:disabled {
+      background-color: #444;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    
+    /* Submit Button */
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: background-color 0.2s;
+    }
+    .btn-submit:hover {
+      background-color: #218838;
+    }
+    .btn-submit:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+
+    /* Tournament List Styling */
+    .tournament-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .tournament-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+    .tournament-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .tournament-meta {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      text-transform: uppercase;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .status-public { background: #28a745; color: white; }
+    .status-request { background: #ffc107; color: #000; }
+    
+    .text-muted {
+      color: #888;
+      font-style: italic;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .force-show-dropdown {
+      display: flex !important;
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="left-section">
+      <a href="home.html"><div class="brand">Ranked <span>Royale</span>[<img src="https://codehs.com/uploads/ae233c960e1667eceff6207d7dacca3a" height="40px" width="40px" alt="Logo">]</div></a> 
+      <nav class="nav-links">
+        <a href="1v1.html"><strong>Ranked</strong></a>
+        <a href="2v2.html"><strong>Casual</strong></a>
+        <a href="tournaments.html"><strong>Tournaments</strong></a> 
+        <a href="leaderboards.html"><strong>Leaderboards</strong></a>
+      </nav>
+    </div>
+
+    <div class="icon-links">
+      <a href="rewards.html"><img src="https://codehs.com/uploads/1ebe0f2612be49581a63efca9b107bfb" height="30px" width="30px" alt="Rewards" class="header-icon"></a>
+      <a href="streaks.html"><img src="https://codehs.com/uploads/3a07e848825f4e34fb84af8c2eebba0d" height="30px" width="30px" alt="Streak" class="header-icon"></a>
+      <a href="announcements.html"><img src="https://codehs.com/uploads/0414a7538b1cd376998628b2b6a8bce2" height="30px" width="30px" alt="Announcements" class="header-icon"></a>
+      <a href="bulletin.html"><img src="https://codehs.com/uploads/70125e8db617ad9cb0f818217b8740dd" height="30px" width="30px" alt="Bulletin" class="header-icon"></a>
+      
+      <a href="friends.html" class="icon-wrapper">
+        <div id="friend-notification" class="notification-dot"></div>
+        <img src="https://codehs.com/uploads/55d49340c9ff8926277fcf6aba722b98" height="30px" width="30px" alt="Friends" class="header-icon">
+      </a>
+    
+      <div class="dropdown">
+        <a href="#" class="dropdown-toggle">
+          <img src="https://codehs.com/uploads/2db38b8ea6560b1964fdd5346b95b07a" 
+               height="30px" width="30px" alt="Dropnav" class="header-icon">
+        </a>
+        <div class="dropdown-menu">
+          <a href="profile.html">
+            <img src="https://codehs.com/uploads/e0bf720738fd3ed3e91fd9901c323097" class="dropdown-icon" alt="Profile Icon">
+            Profile
+          </a>
+          <a href="settings.html">
+            <img src="https://codehs.com/uploads/79d50f0b075ee99b7894000d07891895" class="dropdown-icon" alt="Settings Icon">
+            Settings
+          </a>
+          <a href="support.html">
+            <img src="https://codehs.com/uploads/40ab2aaa6fbe6f29fefd228fb6e6c9e4" class="dropdown-icon" alt="Profile Icon">
+            Support
+          </a>
+          <a href="index.html">
+            <img src="https://codehs.com/uploads/ec211f2b4a8657e17254843e645333e6" class="dropdown-icon" alt="Logout Icon">
+            Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h1>Tournaments</h1>
+
+    <div class="mode-section">
+      <div class="card">
+        <h2>Upcoming Tournaments</h2>
+        <button id="open-create-modal">+ Create Tournament</button>
+        <ul class="tournament-list" id="tournament-ul">
+          <li class="text-muted" id="loading-tournaments">Loading tournaments...</li>
+        </ul>
+      </div>
+
+      <div class="card leaderboard">
+        <a href="leaderboards.html"><h3>Leaderboards <img src="https://codehs.com/uploads/8280612b8209c9ec57459e5b4395cb93" width="30px" height="25px" alt="leaderboard"></h3></a>
+        <h4>Top Tournament Players <img src="https://codehs.com/uploads/6b9e7e650ab7ecd3843182da1d3a7077" width="20px" height="15px" alt="crown"></h4>
+        <table>
+          <thead><tr><th>Rank</th><th>Player</th><th>ELO</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Player</td><td>0000</td></tr>
+            <tr><td>2</td><td>Player</td><td>0000</td></tr>
+            <tr><td>3</td><td>Player</td><td>0000</td></tr>
+            <tr><td>4</td><td>Player</td><td>0000</td></tr>
+            <tr><td>5</td><td>Player</td><td>0000</td></tr>
+            <tr><td>6</td><td>Player</td><td>0000</td></tr>
+            <tr><td>7</td><td>Player</td><td>0000</td></tr>
+            <tr><td>8</td><td>Player</td><td>0000</td></tr>
+            <tr><td>9</td><td>Player</td><td>0000</td></tr>
+            <tr><td>10</td><td>Player</td><td>0000</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="history-section">
+      <div class="card">
+        <h3>Recent Tournament History <img src="https://codehs.com/uploads/2dac2a914e1e4dd7c86aec929e6de275" width="20px" height="20px" alt="history"></h3>
+        <ul>
+          <li>{Tournament Name} - Won by ${Winner} </li>
+          <li>{Tournament Name} - Won by ${Winner}</li>
+          <li>{Tournament Name} - Won by ${Winner}</li>
+        </ul>
+      </div>
+
+      <div class="card leaderboard">
+        <h3>Recent Winners</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Tournament</th>
+              <th>Player</th>
+              <th>Date Won</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Tournament</td><td>Player</td><td>Date</td></tr>
+            <tr><td>Tournament</td><td>Player</td><td>Date</td></tr>
+            <tr><td>Tournament</td><td>Player</td><td>Date</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="bulletin card">
+      <h3>Announcements</h3>
+      <ul>
+        <li>New tournament formats coming next week!</li>
+        <li>Check your ELO before joining to qualify for prizes.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    <p>©RankedRoyale — Unofficial ELO ranking system for Clash Royale. ©Room310 Holdings — Parent company of RankedRoyale. Not affiliated with Supercell.</p>
+  </footer>
+
+  <!-- CREATE TOURNAMENT MODAL -->
+  <div id="create-modal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-modal" id="close-modal-btn">&times;</span>
+      <h2 style="margin-top: 0; margin-bottom: 20px;">Host a Tournament</h2>
+      
+      <form id="create-tournament-form">
+        <div class="form-group">
+          <label>Tournament Name</label>
+          <input type="text" id="t-name" placeholder="e.g. Royal Arena Brawl" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Host Name</label>
+            <input type="text" id="t-host" placeholder="e.g. Your Username" required>
+          </div>
+          <div class="form-group">
+            <label>Total Capacity</label>
+            <input type="number" id="t-capacity" placeholder="e.g. 100" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Format</label>
+            <select id="t-format">
+              <option>Single Elimination</option>
+              <option>Double Elimination</option>
+              <option>Round Robin</option>
+              <option>Swiss System</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Join Visibility</label>
+            <select id="t-join-status">
+              <option value="Public">Public (Anyone can join)</option>
+              <option value="Request to Join">Request to Join (Host approves)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Difficulty / Minimum ELO</label>
+            <select id="t-difficulty">
+              <option>Open</option>
+              <option>Intermediate</option>
+              <option>Pro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tournament Weight (ELO)</label>
+            <input type="number" id="t-weight" placeholder="e.g. 150" value="150" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" id="t-date" required>
+          </div>
+          <div class="form-group">
+            <label>Time</label>
+            <input type="time" id="t-time" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Prize</label>
+            <input type="text" id="t-prize" placeholder="e.g. $50 or Discord Nitro">
+          </div>
+          <div class="form-group">
+            <label>Discord Server Link</label>
+            <input type="url" id="t-discord" placeholder="https://discord.gg/...">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Required Stars</label>
+            <input type="number" id="t-stars" placeholder="e.g. 0" value="0" required>
+          </div>
+          <div class="form-group">
+            <label>Required Finish</label>
+            <input type="text" id="t-finish" placeholder="e.g. None or Top 1000" value="None" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Required Reputation</label>
+          <input type="text" id="t-rep" placeholder="e.g. None-Max" value="None-Max" required>
+        </div>
+
+        <div class="form-group">
+          <label>Entry Requirements & Rules</label>
+          <textarea id="t-reqs" rows="3" placeholder="Specify any deck bans, region locks, or specific rules..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="publish-btn">Publish Tournament</button>
+      </form>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Supabase Initialization
+      let supabase = null;
+      if (window.supabase) {
+        supabase = window.supabase.createClient('https://bxhxfsfpzbluevvimvyy.supabase.co', 'sb_publishable_POfMVVd3io00nMXGlRc2eQ_jndDE2oj');
+      }
+
+      // GLOBAL USER STATE
+      let currentUser = null;
+
+      // 1. FETCH TOURNAMENTS ON LOAD
+      async function loadTournaments() {
+        const tournamentList = document.getElementById('tournament-ul');
+        if (!supabase) return;
+
+        try {
+          const { data, error } = await supabase
+            .from('tournaments')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+          if (error) throw error;
+
+          tournamentList.innerHTML = '';
+
+          if (data && data.length > 0) {
+            data.forEach((t) => {
+              let displayDate = t.date;
+              try {
+                if (t.date) {
+                  const dateObj = new Date(t.date + 'T00:00:00');
+                  if (!isNaN(dateObj)) displayDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                }
+              } catch(err) {}
+
+              // Updated Display logic: Explicit check for true/false
+              // If join_status is strictly false, show Request Only. Otherwise (true or old string data) show Public.
+              const isRequestOnly = (t.join_status === false || t.join_status === 'Request to Join');
+              const statusClass = isRequestOnly ? 'status-request' : 'status-public';
+              const statusText = isRequestOnly ? 'Request Only' : 'Public';
+
+              const isOwner = currentUser && t.creator_id === currentUser.id;
+
+              const newLi = document.createElement('li');
+              newLi.innerHTML = `
+                <div class="tournament-info">
+                  <strong>${t.name} <span class="status-badge ${statusClass}">${statusText}</span> ${isOwner ? '<span style="color:#28a745; font-size:10px; border:1px solid; padding:2px 4px; border-radius:4px; margin-left:5px">YOURS</span>' : ''}</strong>
+                  <span class="tournament-meta">${displayDate || 'TBD'}, ${t.time || 'TBD'} - ${t.prize || 'No Prize'} | Host: ${t.host_name || 'Unknown'}</span>
+                </div>
+                <a href="TournamentTemplete.html?id=${t.id}"><button class="btn-primary">View</button></a>
+              `;
+              
+              const newHr = document.createElement('hr');
+              tournamentList.appendChild(newLi);
+              tournamentList.appendChild(newHr);
+            });
+          } else {
+            tournamentList.innerHTML = '<li class="text-muted">No upcoming tournaments. Be the first to create one!</li>';
+          }
+        } catch (err) {
+          console.error("Failed to load tournaments:", err);
+          tournamentList.innerHTML = '<li class="text-muted" style="color: #ff4c4c;">Error loading tournaments. Please refresh.</li>';
+        }
+      }
+
+      // INITIAL AUTH CHECK
+      async function checkAuth() {
+        if (!supabase) return;
+        const { data: { user } } = await supabase.auth.getUser();
+        currentUser = user;
+        
+        const openBtn = document.getElementById('open-create-modal');
+        if (!user && openBtn) {
+            openBtn.disabled = true;
+            openBtn.innerText = "Login to Host Tournament";
+        }
+        
+        loadTournaments();
+        checkNotifications();
+      }
+      checkAuth();
+
+      // 2. NOTIFICATIONS
+      async function checkNotifications() {
+        try {
+          if (supabase && currentUser) {
+            const { data } = await supabase
+              .from('friendships')
+              .select('id')
+              .eq('receiver_id', currentUser.id)
+              .eq('status', 'pending');
+
+            const dot = document.getElementById('friend-notification');
+            if (dot) dot.style.display = (data && data.length > 0) ? 'block' : 'none';
+          }
+        } catch (err) {
+          console.log("Notification check skipped or failed:", err);
+        }
+      }
+
+      // 3. DROPDOWN LOGIC
+      const toggle = document.querySelector('.dropdown-toggle');
+      const menu = document.querySelector('.dropdown-menu');
+      
+      if (toggle && menu) {
+        toggle.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          menu.classList.toggle('force-show-dropdown');
+        });
+
+        window.addEventListener('click', (e) => {
+          if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove('force-show-dropdown');
+          }
+        });
+      }
+
+      // 4. CREATE TOURNAMENT MODAL & SUBMIT LOGIC
+      const modal = document.getElementById('create-modal');
+      const openBtn = document.getElementById('open-create-modal');
+      const closeBtn = document.getElementById('close-modal-btn');
+      const form = document.getElementById('create-tournament-form');
+      const publishBtn = document.getElementById('publish-btn');
+
+      if (openBtn && modal) {
+          openBtn.addEventListener('click', () => {
+              if (!currentUser) {
+                  window.location.href = "index.html";
+                  return;
+              }
+              modal.style.display = 'block';
+          });
+      }
+      if (closeBtn && modal) closeBtn.addEventListener('click', () => modal.style.display = 'none');
+      
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) modal.style.display = 'none';
+      });
+
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const originalBtnText = publishBtn.innerText;
+          publishBtn.innerText = "Verifying Account...";
+          publishBtn.disabled = true;
+
+          try {
+            if (supabase) {
+              const { data: { user }, error: authError } = await supabase.auth.getUser();
+              
+              if (authError || !user) {
+                  alert("Your session has expired. Please log in again.");
+                  window.location.href = "index.html";
+                  return;
+              }
+
+              publishBtn.innerText = "Publishing...";
+
+              // Logic Fix: Map to boolean strictly
+              const joinStatusValue = document.getElementById('t-join-status').value;
+              const isPublicBool = (joinStatusValue === "Public"); 
+              
+              const { error } = await supabase.from('tournaments').insert([{
+                name: document.getElementById('t-name').value,
+                host_name: document.getElementById('t-host').value,
+                capacity: parseInt(document.getElementById('t-capacity').value),
+                format: document.getElementById('t-format').value,
+                difficulty: document.getElementById('t-difficulty').value,
+                date: document.getElementById('t-date').value,
+                time: document.getElementById('t-time').value,
+                prize: document.getElementById('t-prize').value || 'No Prize',
+                discord_link: document.getElementById('t-discord').value,
+                req_stars: parseInt(document.getElementById('t-stars').value),
+                req_finish: document.getElementById('t-finish').value,
+                req_rep: document.getElementById('t-rep').value,
+                weight: parseInt(document.getElementById('t-weight').value),
+                description: document.getElementById('t-reqs').value,
+                join_status: isPublicBool, 
+                creator_id: user.id
+              }]);
+
+              if (error) throw error;
+              
+              modal.style.display = 'none';
+              form.reset();
+              await loadTournaments();
+            }
+          } catch(err) {
+            console.error("Database save failed:", err);
+            alert("Error: " + err.message);
+          }
+
+          publishBtn.innerText = originalBtnText;
+          publishBtn.disabled = false;
+        });
+      }
+    });
+  </script>
+</body>
+</html>

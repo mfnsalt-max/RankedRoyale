@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rewards - Ranked Royale</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+
+.wheel-wrapper {
+  transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
+  display: inline-block;
+}
+
+  body {
+    text-align: center;
+    font-family: Inter, sans-serif;
+    color: var(--text, #fff);
+    background: var(--bg, #0f0f0f);
+  }
+
+  h2 {
+    color: var(--accent, #ffd658);
+    margin-top: 40px;
+  }
+
+  .wheel-section {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 40px;
+  }
+
+  .wheel-card {
+    background: #1b1b1e;
+    border-radius: 16px;
+    padding: 24px;
+    width: 350px;
+    box-shadow: 0 0 10px rgba(255, 214, 88, 0.1);
+  }
+
+  .pointer {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 25px solid #ff4747;
+    margin: 0 auto 10px;
+  }
+
+  .wheel-container {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto;
+  }
+
+  .wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 5px solid var(--accent, #ffd658);
+    transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  canvas {
+    border-radius: 50%;
+  }
+
+  .btn-primary {
+    background: var(--accent, #ffd658);
+    color: #121212;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+  }
+
+  .btn-primary:hover {
+    background: #ffea87;
+  }
+
+  .wheel-result {
+    color: var(--accent, #ffd658);
+    font-weight: 600;
+    margin-top: 14px;
+    min-height: 22px;
+  }
+
+  .gold-display {
+    color: #ccc;
+    margin-top: 10px;
+  }
+</style>
+</head>
+
+<body>
+  <h2>🎡 Rewards Wheel</h2>
+  <p style="color:#aaa">Spin daily for free or use gold for extra rewards!</p>
+
+  <div class="wheel-section">
+    <!-- Daily Wheel -->
+    <div class="wheel-card">
+      <h3>Daily Wheel</h3>
+      <div class="pointer"></div>
+      <div class="wheel-container">
+        <canvas id="dailyWheel" width="280" height="280"></canvas>
+      </div>
+      <button id="dailySpin" class="btn-primary">Spin Free</button>
+      <div id="dailyResult" class="wheel-result"></div>
+    </div>
+
+    <!-- Gold Wheel -->
+    <div class="wheel-card">
+      <h3>Gold Wheel</h3>
+      <div class="pointer"></div>
+      <div class="wheel-container">
+        <canvas id="goldWheel" width="280" height="280"></canvas>
+      </div>
+      <button id="goldSpin" class="btn-primary">Spin (100 Gold)</button>
+      <div id="goldResult" class="wheel-result"></div>
+      <div class="gold-display">Gold: <span id="gold">500</span></div>
+    </div>
+  </div>
+
+<script>
+  const rewards = [
+    "100 Gold", "50 Gems", "Epic Card", "Rare Card", "Legendary Key",
+    "50 Gold", "100 XP", "Mystery Chest", "50 XP", "Common Pack"
+  ];
+
+  const goldDisplay = document.getElementById("gold");
+  let gold = parseInt(localStorage.getItem("gold")) || 500;
+  goldDisplay.textContent = gold;
+
+  const dailyCooldown = 24 * 60 * 60 * 1000;
+  let lastSpin = parseInt(localStorage.getItem("lastDailySpin") || "0", 10);
+
+  // Draw wheel slices
+  function drawWheel(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext("2d");
+    const numSlices = rewards.length;
+    const arc = (2 * Math.PI) / numSlices;
+
+    for (let i = 0; i < numSlices; i++) {
+      const start = i * arc;
+      const end = start + arc;
+      ctx.beginPath();
+      ctx.moveTo(140, 140);
+      ctx.arc(140, 140, 140, start, end);
+      ctx.fillStyle = i % 2 === 0 ? "#ffd658" : "#ffed94";
+      ctx.fill();
+
+      ctx.save();
+      ctx.translate(140, 140);
+      ctx.rotate(start + arc / 2);
+      ctx.textAlign = "right";
+      ctx.fillStyle = "#000";
+      ctx.font = "bold 13px Inter";
+      ctx.fillText(rewards[i], 120, 5);
+      ctx.restore();
+    }
+  }
+
+  function setupWheel(id) {
+    const canvas = document.getElementById(id);
+    const wrapper = document.createElement("div");
+    wrapper.className = "wheel-wrapper";
+    canvas.parentNode.insertBefore(wrapper, canvas);
+    wrapper.appendChild(canvas);
+    drawWheel(id);
+    return wrapper;
+  }
+
+  const dailyWrapper = setupWheel("dailyWheel");
+  const goldWrapper = setupWheel("goldWheel");
+
+  function spinWheel(wrapper, resultId, isDaily) {
+    const result = document.getElementById(resultId);
+    const now = Date.now();
+
+    // Handle daily cooldown
+    if (isDaily) {
+      if (lastSpin && now - lastSpin < dailyCooldown) {
+        updateDailyTimer();
+        return;
+      }
+      lastSpin = now;
+      localStorage.setItem("lastDailySpin", lastSpin.toString());
+      updateDailyTimer();
+    } else {
+      if (gold < 100) {
+        result.textContent = "Not enough gold!";
+        return;
+      }
+      gold -= 100;
+      localStorage.setItem("gold", gold);
+      goldDisplay.textContent = gold;
+    }
+
+    // Pick a random reward index
+    const rewardIndex = Math.floor(Math.random() * rewards.length);
+    const numSlices = rewards.length;
+    const arc = 360 / numSlices;
+
+    // Calculate rotation so the selected reward is at the pointer (top)
+    const spins = 5; // multiple full rotations
+    const targetDeg = spins * 360 + (360 - rewardIndex * arc - arc / 2);
+
+    // Animate rotation
+    wrapper.style.transition = "transform 4s cubic-bezier(0.33, 1, 0.68, 1)";
+    wrapper.style.transform = `rotate(${targetDeg}deg)`;
+
+    setTimeout(() => {
+      // Reset rotation for next spin
+      wrapper.style.transition = "none";
+      wrapper.style.transform = `rotate(${360 - rewardIndex * arc - arc / 2}deg)`;
+
+      const reward = rewards[rewardIndex];
+      result.textContent = `🎉 You won: ${reward}!`;
+
+      // Give reward if it's gold
+      if (reward.includes("Gold")) {
+        const amount = parseInt(reward);
+        gold += amount;
+        localStorage.setItem("gold", gold);
+        goldDisplay.textContent = gold;
+      }
+    }, 4000);
+  }
+
+  // Daily cooldown timer display
+  const dailySpinBtn = document.getElementById("dailySpin");
+  const dailyResult = document.getElementById("dailyResult");
+
+  function updateDailyTimer() {
+    const now = Date.now();
+    if (!lastSpin || now - lastSpin >= dailyCooldown) {
+      dailyResult.textContent = "Your free spin is ready!";
+      dailySpinBtn.disabled = false;
+      return;
+    }
+
+    dailySpinBtn.disabled = true;
+    const remaining = dailyCooldown - (now - lastSpin);
+    const hours = Math.floor(remaining / 3600000);
+    const minutes = Math.floor((remaining % 3600000) / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+
+    dailyResult.textContent = `Next free spin in ${hours}h ${minutes}m ${seconds}s`;
+
+    setTimeout(updateDailyTimer, 1000);
+  }
+
+  updateDailyTimer();
+
+  document.getElementById("dailySpin").addEventListener("click", () => {
+    spinWheel(dailyWrapper, "dailyResult", true);
+  });
+
+  document.getElementById("goldSpin").addEventListener("click", () => {
+    spinWheel(goldWrapper, "goldResult", false);
+  });
+</script>
+
+
+
+</body>
+</html>
